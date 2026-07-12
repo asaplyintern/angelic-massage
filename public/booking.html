@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Book Appointment | Angelic Massage</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <nav class="nav-left" aria-label="Main navigation">
+        <a href="/">Home</a>
+        <a href="/services">Services</a>
+        <a href="/about">About Us</a>
+      </nav>
+      <div class="brand">Angelic Massage</div>
+    </header>
+
+    <main class="booking-page">
+      <aside>
+        <a class="text-button" id="booking-back" href="/">Back</a>
+        <div class="section-heading" style="margin-top: 24px;">
+          <h1>Book an Appointment</h1>
+          <p>This request is saved in the Angelic Massage booking database. The appointment can be confirmed, cancelled, rescheduled, or marked complete from the admin dashboard.</p>
+        </div>
+        <div class="photo-slot small-photo" aria-label="Booking page photo placeholder"></div>
+      </aside>
+
+      <section class="booking-panel">
+        <h2>Appointment request</h2>
+        <p>Lakeview balcony massage can be added to any service for $20 CAD.</p>
+        <form class="form-grid" id="booking-form">
+          <div class="notice" id="booking-notice"></div>
+          <div class="field">
+            <label for="name">Full name</label>
+            <input id="name" name="name" autocomplete="name" required>
+          </div>
+          <div class="field">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" autocomplete="email" required>
+          </div>
+          <div class="field">
+            <label for="phone">Phone number</label>
+            <input id="phone" name="phone" autocomplete="tel" required>
+          </div>
+          <div class="field">
+            <label for="serviceId">Service</label>
+            <select id="serviceId" name="serviceId" required></select>
+          </div>
+          <div class="field">
+            <label for="duration">Duration</label>
+            <select id="duration" name="duration" required></select>
+          </div>
+          <label class="checkbox" for="balcony">
+            <input id="balcony" type="checkbox">
+            <span>Add lakeview balcony massage for $20 CAD</span>
+          </label>
+          <div class="field">
+            <label for="appointmentAt">Preferred date and time</label>
+            <input id="appointmentAt" name="appointmentAt" type="datetime-local" required>
+          </div>
+          <div class="field">
+            <label for="notes">Notes</label>
+            <textarea id="notes" name="notes" placeholder="Areas of focus, pressure preference, or questions"></textarea>
+          </div>
+          <button class="button" type="submit">Save Appointment Request</button>
+        </form>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <strong>Angelic Massage</strong>
+      <div class="footer-details">
+        <span data-address></span>
+        <a data-phone></a>
+        <a data-email></a>
+      </div>
+    </footer>
+    <script src="/site.js"></script>
+  </body>
+</html>

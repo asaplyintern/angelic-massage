@@ -10,6 +10,7 @@ const services = [
     name: "Soft Touch",
     category: "Relaxation Massage",
     description: "A calm, gentle massage designed for rest, stress relief, and a lighter therapeutic touch.",
+    image: "/assets/soft-touch-neck.jpg",
     popular: false,
     prices: [
       ["30 minutes", 80],
@@ -23,6 +24,7 @@ const services = [
     name: "Deep Tissue",
     category: "Therapeutic Massage",
     description: "Focused pressure for tight muscles, built-up tension, and areas that need deeper bodywork.",
+    image: "/assets/deep-tissue-back.jpg",
     popular: false,
     prices: [
       ["30 minutes", 80],
@@ -36,6 +38,7 @@ const services = [
     name: "Blend",
     category: "Relaxation Massage with Deep Tissue",
     description: "The most popular treatment: relaxing flow with deeper work where your body needs it most.",
+    image: "/assets/blend-massage.jpg",
     popular: true,
     prices: [
       ["30 minutes", 80],
@@ -49,6 +52,7 @@ const services = [
     name: "Hot Stone Therapy",
     category: "Stone Therapy",
     description: "A warming stone treatment for deep relaxation, comfort, and eased muscle tension.",
+    image: "/assets/hot-stones-back.jpg",
     popular: false,
     prices: [
       ["1 hour", 150],
@@ -79,7 +83,8 @@ function renderServices(targetId, limit) {
     .slice(0, limit || services.length)
     .map(
       (service) => `
-        <article class="service-card">
+        <article class="service-card reveal">
+          <img class="service-image" src="${service.image}" alt="${service.name} treatment">
           ${service.popular ? '<span class="badge">Most Popular</span>' : ""}
           <div>
             <h3>${service.name}</h3>
@@ -147,8 +152,31 @@ function setupBookingForm() {
   });
 }
 
+function setupRevealAnimations() {
+  const items = document.querySelectorAll(
+    ".hero-copy, .hero-actions, .feature, .service-card, .image-card, .booking-strip, .booking-panel, .admin-panel, .section-heading, .page-title"
+  );
+  items.forEach((item) => item.classList.add("reveal"));
+  if (!("IntersectionObserver" in window)) {
+    items.forEach((item) => item.classList.add("is-visible"));
+    return;
+  }
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.14 }
+  );
+  items.forEach((item) => observer.observe(item));
+}
+
 fillFooter();
 renderServices("services-preview", 3);
 renderServices("all-services");
 setupBookingForm();
-
+setupRevealAnimations();

@@ -80,8 +80,11 @@ function renderServices(targetId, limit) {
   const target = document.getElementById(targetId);
   if (!target) return;
   const source = window.location.pathname === "/services" ? "services" : "home";
-  target.innerHTML = services
-    .slice(0, limit || services.length)
+  const visibleServices = targetId === "all-services"
+    ? services.filter((service) => service.id !== "hot-stone")
+    : services;
+  target.innerHTML = visibleServices
+    .slice(0, limit || visibleServices.length)
     .map(
       (service) => `
         <a class="service-card reveal" href="/booking?from=${source}&service=${service.id}">
@@ -159,7 +162,7 @@ function setupBookingForm() {
 
 function setupRevealAnimations() {
   const items = document.querySelectorAll(
-    ".hero-copy, .hero-actions, .feature, .service-card, .image-card, .about-card, .about-photo, .booking-strip, .booking-panel, .admin-panel, .section-heading, .page-title"
+    ".hero-copy, .hero-actions, .feature, .service-card, .hot-stone-card, .image-card, .about-card, .about-copy, .about-split-photo, .owner-photo, .owner-story, .about-photo, .booking-strip, .booking-panel, .admin-panel, .section-heading, .page-title"
   );
   items.forEach((item) => item.classList.add("reveal"));
   if (!("IntersectionObserver" in window)) {

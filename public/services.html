@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Services | Angelic Massage</title>
-    <link rel="stylesheet" href="/styles.css?v=services-polish">
+    <link rel="stylesheet" href="/styles.css?v=booking-calendar">
   </head>
   <body>
     <header class="site-header">
@@ -18,12 +18,27 @@
     </header>
 
     <main class="services-page">
-      <section class="page-title">
-        <h1>Services</h1>
-        <p>Treatments are available indoors, with a lakeview balcony option for an extra $20 CAD on any service. Eyelash extensions are coming soon.</p>
+      <section class="services-hero">
+        <div class="services-hero-copy">
+          <span class="eyebrow">Treatment Menu</span>
+          <h1>Massage care shaped around how your body feels.</h1>
+          <p>Choose a focused treatment, then request an appointment time from the scheduling page. Lakeview balcony massage can be added to any massage service for an extra $20 CAD.</p>
+        </div>
+        <figure class="services-hero-photo">
+          <img src="/assets/warm-massage-room.jpg" alt="Warm massage room with spa lighting">
+        </figure>
       </section>
 
-      <section class="band warm">
+      <section class="service-menu-band">
+        <div class="menu-sidebar">
+          <span class="eyebrow">Popular first</span>
+          <h2>Available Treatments</h2>
+          <p>Blend is the most requested massage and appears first. Tap a treatment card to book that exact service.</p>
+          <div class="menu-note">
+            <strong>Lakeview balcony</strong>
+            <span>Add outdoor lakeview service to any massage for $20 CAD.</span>
+          </div>
+        </div>
         <div class="service-grid" id="all-services"></div>
       </section>
 
@@ -62,7 +77,7 @@
         <a class="button" href="/booking?from=services">Book Appointment</a>
       </section>
 
-      <section class="band">
+      <section class="band eyelash-section">
         <div class="section-heading">
           <h2>Coming soon</h2>
           <p>Eyelash extensions will be added to the service menu later.</p>
@@ -81,6 +96,6 @@
         <a data-email></a>
       </div>
     </footer>
-    <script src="/site.js?v=services-polish"></script>
+    <script src="/site.js?v=booking-calendar"></script>
   </body>
 </html>

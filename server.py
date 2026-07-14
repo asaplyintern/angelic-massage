@@ -6,7 +6,7 @@ import json
 import os
 import secrets
 import sqlite3
-from datetime import datetime
+from datetime import datetime, timedelta
 from http import cookies
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
@@ -24,6 +24,15 @@ BUSINESS = {
     "address": "5227 Trepanier Bench Road, Peachland, British Columbia, Canada, V0H 1X2",
     "phone": "+1-778-363-9832",
     "email": "avrearain@gmail.com",
+}
+
+BUSINESS_HOURS = {
+    0: (6, 19),
+    1: (6, 19),
+    2: (6, 19),
+    3: (6, 19),
+    4: (6, 19),
+    5: (10, 18),
 }
 
 SERVICES = [
@@ -155,6 +164,83 @@ def find_service(service_id):
     return None
 
 
+def duration_to_minutes(duration):
+    normalized = duration.lower()
+    if "30" in normalized:
+        return 30
+    if "90" in normalized:
+        return 90
+    if "2 hour" in normalized:
+        return 120
+    if "1 hour" in normalized:
+        return 60
+    return 0
+
+
+def format_time(value):
+    return value.strftime("%-I:%M %p")
+
+
+def day_bounds(day):
+    hours = BUSINESS_HOURS.get(day.weekday())
+    if not hours:
+        return None
+    open_hour, close_hour = hours
+    return day.replace(hour=open_hour, minute=0), day.replace(hour=close_hour, minute=0)
+
+
+def is_within_business_hours(start, duration_minutes):
+    bounds = day_bounds(start)
+    if not bounds:
+        return False
+    open_at, close_at = bounds
+    end = start + timedelta(minutes=duration_minutes)
+    return open_at <= start and end <= close_at
+
+
+def booked_appointments_for_day(day):
+    with db() as connection:
+        return connection.execute(
+            """
+            SELECT appointment_at, duration FROM appointments
+            WHERE date(appointment_at) = ? AND status != 'cancelled'
+            """,
+            (day,),
+        ).fetchall()
+
+
+def slot_has_conflict(start, duration_minutes):
+    end = start + timedelta(minutes=duration_minutes)
+    for booking in booked_appointments_for_day(start.date().isoformat()):
+        booked_start = datetime.fromisoformat(booking["appointment_at"])
+        booked_end = booked_start + timedelta(minutes=duration_to_minutes(booking["duration"]))
+        if start < booked_end and end > booked_start:
+            return True
+    return False
+
+
+def availability_for_day(day, duration_minutes):
+    bounds = day_bounds(day)
+    if not bounds or duration_minutes <= 0:
+        return []
+    open_at, close_at = bounds
+    slots = []
+    current = open_at
+    now = datetime.now()
+    while current + timedelta(minutes=duration_minutes) <= close_at:
+        value = current.isoformat(timespec="minutes")
+        slots.append(
+            {
+                "value": value,
+                "time": current.strftime("%H:%M"),
+                "label": format_time(current),
+                "available": current >= now and not slot_has_conflict(current, duration_minutes),
+            }
+        )
+        current += timedelta(minutes=30)
+    return slots
+
+
 class Handler(SimpleHTTPRequestHandler):
     def translate_path(self, path):
         parsed = urlparse(path)
@@ -174,6 +260,9 @@ class Handler(SimpleHTTPRequestHandler):
         parsed = urlparse(self.path)
         if parsed.path == "/api/config":
             self.json({"business": BUSINESS, "services": SERVICES})
+            return
+        if parsed.path == "/api/availability":
+            self.availability(parsed.query)
             return
         if parsed.path == "/api/admin/bookings":
             if not self.require_admin():
@@ -280,6 +369,14 @@ class Handler(SimpleHTTPRequestHandler):
         except ValueError:
             self.error(400, "Invalid appointment date")
             return
+        appointment_start = datetime.fromisoformat(appointment_at)
+        duration_minutes = duration_to_minutes(payload["duration"])
+        if not is_within_business_hours(appointment_start, duration_minutes):
+            self.error(400, "That time is outside Angelic Massage working hours")
+            return
+        if slot_has_conflict(appointment_start, duration_minutes):
+            self.error(409, "That appointment time is no longer available")
+            return
 
         location = "Lakeview balcony (+$20)" if payload.get("balcony") else "Indoor treatment room"
         with db() as connection:
@@ -303,6 +400,35 @@ class Handler(SimpleHTTPRequestHandler):
                 ),
             )
         self.json({"ok": True, "id": cursor.lastrowid}, 201)
+
+    def availability(self, query):
+        filters = parse_qs(query)
+        day = filters.get("date", [""])[0]
+        duration = filters.get("duration", [""])[0]
+        try:
+            selected_day = datetime.fromisoformat(day)
+        except ValueError:
+            self.error(400, "Invalid date")
+            return
+        duration_minutes = duration_to_minutes(duration)
+        bounds = day_bounds(selected_day)
+        if not bounds:
+            self.json(
+                {
+                    "open": False,
+                    "hours": "Closed",
+                    "slots": [],
+                }
+            )
+            return
+        open_at, close_at = bounds
+        self.json(
+            {
+                "open": True,
+                "hours": f"{format_time(open_at)} - {format_time(close_at)}",
+                "slots": availability_for_day(selected_day, duration_minutes),
+            }
+        )
 
     def list_bookings(self, query):
         filters = parse_qs(query)
@@ -395,4 +521,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

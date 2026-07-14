@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Book Appointment | Angelic Massage</title>
-    <link rel="stylesheet" href="/styles.css?v=services-polish">
+    <link rel="stylesheet" href="/styles.css?v=booking-calendar">
   </head>
   <body>
     <header class="site-header">
@@ -57,10 +57,22 @@
             <input id="balcony" type="checkbox">
             <span>Add lakeview balcony massage for $20 CAD</span>
           </label>
-          <div class="field">
-            <label for="appointmentAt">Preferred date and time</label>
-            <input id="appointmentAt" name="appointmentAt" type="datetime-local" required>
-          </div>
+          <section class="schedule-picker" aria-label="Choose an appointment time">
+            <div class="schedule-head">
+              <div>
+                <span class="eyebrow">Availability</span>
+                <h3>Choose a Date and Time</h3>
+              </div>
+              <p>Open Monday-Friday, 6:00 AM-7:00 PM. Saturday, 10:00 AM-6:00 PM. Closed Sunday.</p>
+            </div>
+            <div class="field">
+              <label for="appointmentDate">Appointment date</label>
+              <input id="appointmentDate" type="date">
+            </div>
+            <div class="slot-status" id="slot-status">Choose a service and duration to see available times.</div>
+            <div class="slot-grid" id="slot-grid" aria-live="polite"></div>
+            <input id="appointmentAt" name="appointmentAt" type="hidden">
+          </section>
           <div class="field">
             <label for="notes">Notes</label>
             <textarea id="notes" name="notes" placeholder="Areas of focus, pressure preference, or questions"></textarea>
@@ -78,6 +90,6 @@
         <a data-email></a>
       </div>
     </footer>
-    <script src="/site.js?v=services-polish"></script>
+    <script src="/site.js?v=booking-calendar"></script>
   </body>
 </html>

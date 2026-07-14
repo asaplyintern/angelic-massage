@@ -127,26 +127,89 @@ main {
   position: relative;
   display: flex;
   align-items: flex-end;
-  min-height: min(760px, calc(100vh - 74px));
+  min-height: calc(100vh - 72px);
   padding: 11vh 6vw 8vh;
-  background:
-    linear-gradient(90deg, rgba(31, 20, 15, 0.58), rgba(73, 43, 27, 0.28) 42%, rgba(255, 248, 238, 0)),
-    url("/assets/main-spa-robe.jpg") center 35% / cover no-repeat;
+  background: var(--cocoa);
   overflow: hidden;
+}
+
+.hero::before {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  content: "";
+  background: linear-gradient(90deg, rgba(31, 20, 15, 0.58), rgba(73, 43, 27, 0.26) 42%, rgba(255, 248, 238, 0));
+  pointer-events: none;
 }
 
 .hero::after {
   position: absolute;
   inset: auto 0 0;
+  z-index: 1;
   height: 24%;
   content: "";
   background: linear-gradient(180deg, transparent, rgba(251, 243, 232, 0.36));
   pointer-events: none;
 }
 
+.hero-slider {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: flex;
+  width: 300%;
+  height: 100%;
+  animation: hero-slide 15s infinite ease-in-out;
+}
+
+.hero-slide {
+  width: 100%;
+  flex: 0 0 100vw;
+  height: 100%;
+}
+
+.hero-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero-slide:first-child img {
+  object-position: center 35%;
+}
+
+.hero-slide:nth-child(2) img {
+  object-position: center 45%;
+}
+
+.hero-slide:nth-child(3) img {
+  object-position: center 48%;
+}
+
+@keyframes hero-slide {
+  0%,
+  26% {
+    transform: translateX(0);
+  }
+
+  33%,
+  59% {
+    transform: translateX(-100vw);
+  }
+
+  66%,
+  92% {
+    transform: translateX(-200vw);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
 .hero-copy {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   max-width: 720px;
   color: #fff7ee;
 }
@@ -640,6 +703,11 @@ textarea {
 
   .reveal {
     opacity: 1;
+    transform: none;
+  }
+
+  .hero-slider {
+    animation: none;
     transform: none;
   }
 }

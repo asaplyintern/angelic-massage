@@ -117,7 +117,7 @@ function setupBookingForm() {
   const from = params.get("from") === "services" ? "/services" : "/";
   back.href = from;
 
-  serviceSelect.innerHTML = services
+  serviceSelect.innerHTML = '<option value="" selected disabled>Choose a service</option>' + services
     .map((service) => `<option value="${service.id}">${service.name} - ${service.category}</option>`)
     .join("");
   const requestedService = params.get("service");
@@ -127,6 +127,10 @@ function setupBookingForm() {
 
   function updateDurations() {
     const service = services.find((item) => item.id === serviceSelect.value);
+    if (!service) {
+      durationSelect.innerHTML = '<option value="" selected disabled>Choose a service first</option>';
+      return;
+    }
     durationSelect.innerHTML = '<option value="" selected disabled>Choose a duration</option>' + service.prices
       .map(([duration, price]) => `<option value="${duration}">${duration} - $${price} CAD</option>`)
       .join("");

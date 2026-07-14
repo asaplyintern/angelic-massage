@@ -127,7 +127,7 @@ main {
   position: relative;
   display: flex;
   align-items: flex-end;
-  min-height: calc(100vh - 72px);
+  min-height: min(760px, calc(100vh - 74px));
   padding: 11vh 6vw 8vh;
   background: var(--cocoa);
   overflow: hidden;
@@ -157,7 +157,7 @@ main {
   inset: 0;
   z-index: 0;
   display: flex;
-  width: 300%;
+  width: 400%;
   height: 100%;
   animation: hero-slide 15s infinite ease-in-out;
 }
@@ -186,20 +186,28 @@ main {
   object-position: center 48%;
 }
 
+.hero-slide:nth-child(4) img {
+  object-position: center 35%;
+}
+
 @keyframes hero-slide {
   0%,
-  26% {
+  28% {
     transform: translateX(0);
   }
 
   33%,
-  59% {
+  61% {
     transform: translateX(-100vw);
   }
 
   66%,
-  92% {
+  94% {
     transform: translateX(-200vw);
+  }
+
+  99.99% {
+    transform: translateX(-300vw);
   }
 
   100% {

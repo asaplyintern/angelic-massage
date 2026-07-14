@@ -38,9 +38,9 @@ a {
   position: sticky;
   top: 0;
   z-index: 10;
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   align-items: center;
-  justify-content: space-between;
   gap: 24px;
   min-height: 72px;
   padding: 0 28px;
@@ -53,6 +53,7 @@ a {
   display: flex;
   align-items: center;
   gap: 10px;
+  justify-self: start;
 }
 
 .nav-left a,
@@ -82,11 +83,16 @@ a {
 }
 
 .brand {
+  justify-self: center;
   font-family: Georgia, "Times New Roman", serif;
   font-size: 1.35rem;
   font-weight: 700;
   color: #f7eadc;
   white-space: nowrap;
+}
+
+.header-action {
+  justify-self: end;
 }
 
 .header-action,
@@ -659,8 +665,13 @@ textarea {
     flex-direction: column;
   }
 
+  .site-header {
+    display: flex;
+  }
+
   .brand {
     order: -1;
+    align-self: center;
   }
 
   .booking-page,

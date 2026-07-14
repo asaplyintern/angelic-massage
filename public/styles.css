@@ -559,6 +559,11 @@ img {
   color: var(--muted);
 }
 
+.balcony-button {
+  width: fit-content;
+  min-width: 180px;
+}
+
 .home-treatments {
   background:
     radial-gradient(circle at 8% 0, rgba(158, 166, 110, 0.22), transparent 18rem),

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Services | Angelic Massage</title>
-    <link rel="stylesheet" href="/styles.css?v=booking-calendar">
+    <link rel="stylesheet" href="/styles.css?v=services-hotstone-fix">
   </head>
   <body>
     <header class="site-header">
@@ -43,30 +43,31 @@
       </section>
 
       <section class="band hot-stone-section">
-        <div class="section-heading">
-          <h2>Hot Stone Therapy</h2>
-          <p>Available appointment options and pricing.</p>
-        </div>
-        <article class="hot-stone-card reveal">
-          <div>
+        <article class="hot-stone-feature reveal">
+          <div class="hot-stone-copy">
+            <span class="eyebrow">Warm stone treatment</span>
             <h3>Hot Stone Therapy</h3>
-            <p>Lakeview balcony option available for an extra $20 CAD.</p>
+            <p>A focused warming service with simple appointment options and clear pricing.</p>
+            <ul class="price-list hot-stone-prices">
+              <li><span>1 hour</span><span>$150 CAD</span></li>
+              <li><span>90 minutes</span><span>$190 CAD</span></li>
+              <li><span>2 hours</span><span>$250 CAD</span></li>
+            </ul>
           </div>
-          <ul class="price-list hot-stone-prices">
-            <li><span>1 hour</span><span>$150 CAD</span></li>
-            <li><span>90 minutes</span><span>$190 CAD</span></li>
-            <li><span>2 hours</span><span>$250 CAD</span></li>
-          </ul>
-          <a class="button" href="/booking?from=services&service=hot-stone">Book Hot Stone</a>
+          <div class="hot-stone-booking">
+            <figure class="image-card hot-stone-main-photo">
+              <img src="/assets/hot-stones-back.jpg" alt="Hot stones placed along the back">
+            </figure>
+            <div class="hot-stone-action">
+              <strong>Ready to schedule hot stone therapy?</strong>
+              <span>Lakeview balcony option available for an extra $20 CAD.</span>
+              <a class="button" href="/booking?from=services&service=hot-stone">Book Hot Stone Therapy</a>
+            </div>
+          </div>
         </article>
-        <div class="hot-stone-photos">
-          <figure class="image-card wide">
-            <img src="/assets/hot-stones-back.jpg" alt="Hot stones placed along the back">
-          </figure>
-          <figure class="image-card wide">
-            <img src="/assets/hot-stones-shoulder.jpg" alt="Hot stone massage on the shoulders">
-          </figure>
-        </div>
+        <figure class="image-card hot-stone-wide-photo reveal">
+          <img src="/assets/hot-stones-shoulder.jpg" alt="Hot stone massage on the shoulders">
+        </figure>
       </section>
 
       <section class="booking-strip" aria-label="Book an appointment">
@@ -96,6 +97,6 @@
         <a data-email></a>
       </div>
     </footer>
-    <script src="/site.js?v=booking-calendar"></script>
+    <script src="/site.js?v=services-hotstone-fix"></script>
   </body>
 </html>

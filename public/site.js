@@ -79,11 +79,12 @@ function fillFooter() {
 function renderServices(targetId, limit) {
   const target = document.getElementById(targetId);
   if (!target) return;
+  const source = window.location.pathname === "/services" ? "services" : "home";
   target.innerHTML = services
     .slice(0, limit || services.length)
     .map(
       (service) => `
-        <article class="service-card reveal">
+        <a class="service-card reveal" href="/booking?from=${source}&service=${service.id}">
           <img class="service-image" src="${service.image}" alt="${service.name} treatment">
           ${service.popular ? '<span class="badge">Most Popular</span>' : ""}
           <div>
@@ -96,7 +97,7 @@ function renderServices(targetId, limit) {
               .map(([duration, price]) => `<li><span>${duration}</span><span>$${price} CAD</span></li>`)
               .join("")}
           </ul>
-        </article>
+        </a>
       `
     )
     .join("");
@@ -116,6 +117,10 @@ function setupBookingForm() {
   serviceSelect.innerHTML = services
     .map((service) => `<option value="${service.id}">${service.name} - ${service.category}</option>`)
     .join("");
+  const requestedService = params.get("service");
+  if (services.some((service) => service.id === requestedService)) {
+    serviceSelect.value = requestedService;
+  }
 
   function updateDurations() {
     const service = services.find((item) => item.id === serviceSelect.value);
@@ -154,7 +159,7 @@ function setupBookingForm() {
 
 function setupRevealAnimations() {
   const items = document.querySelectorAll(
-    ".hero-copy, .hero-actions, .feature, .service-card, .image-card, .booking-strip, .booking-panel, .admin-panel, .section-heading, .page-title"
+    ".hero-copy, .hero-actions, .feature, .service-card, .image-card, .about-card, .about-photo, .booking-strip, .booking-panel, .admin-panel, .section-heading, .page-title"
   );
   items.forEach((item) => item.classList.add("reveal"));
   if (!("IntersectionObserver" in window)) {

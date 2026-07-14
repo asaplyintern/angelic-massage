@@ -321,6 +321,39 @@ img {
   max-width: 100%;
 }
 
+.home-page {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 12% 18%, rgba(158, 166, 110, 0.22), transparent 24rem),
+    radial-gradient(circle at 92% 52%, rgba(215, 165, 111, 0.18), transparent 22rem),
+    linear-gradient(180deg, #f7f4e6 0%, #eef0da 42%, #fbf3e8 100%);
+}
+
+.home-page::before {
+  position: absolute;
+  top: 720px;
+  right: -140px;
+  z-index: 0;
+  width: 360px;
+  height: 620px;
+  content: "";
+  opacity: 0.1;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 45% 8%, var(--leaf-dark) 0 9%, transparent 10%),
+    radial-gradient(ellipse at 30% 24%, var(--leaf-dark) 0 8%, transparent 9%),
+    radial-gradient(ellipse at 62% 38%, var(--leaf-dark) 0 10%, transparent 11%),
+    radial-gradient(ellipse at 37% 55%, var(--leaf-dark) 0 8%, transparent 9%),
+    linear-gradient(90deg, transparent 48%, var(--leaf-dark) 49% 51%, transparent 52%);
+  transform: rotate(-18deg);
+}
+
+.home-page > section {
+  position: relative;
+  z-index: 1;
+}
+
 .band,
 .page-title {
   padding: 54px 6vw;
@@ -433,6 +466,137 @@ img {
 .booking-panel p {
   margin: 10px 0 0;
   color: var(--muted);
+}
+
+.home-essentials {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.82fr) minmax(360px, 1.18fr);
+  gap: 22px;
+  padding: 58px 6vw;
+  background:
+    linear-gradient(135deg, rgba(255, 248, 238, 0.72), rgba(242, 240, 223, 0.86)),
+    #eef0da;
+}
+
+.home-essentials-copy,
+.balcony-card,
+.home-gallery-story > div {
+  border: 1px solid rgba(169, 151, 116, 0.42);
+  border-radius: 8px;
+  background: rgba(255, 248, 238, 0.78);
+  box-shadow: 0 18px 42px rgba(75, 43, 28, 0.1);
+}
+
+.home-essentials-copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 28px;
+}
+
+.home-essentials-copy h2,
+.home-gallery-story h2 {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  color: var(--warm-dark);
+  font-size: clamp(2rem, 4vw, 4rem);
+  line-height: 1;
+}
+
+.hours-list {
+  display: grid;
+  gap: 12px;
+  padding: 0;
+  margin: 24px 0 0;
+  list-style: none;
+}
+
+.hours-list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 13px 0;
+  border-top: 1px solid rgba(138, 90, 54, 0.18);
+  color: var(--muted);
+}
+
+.hours-list strong {
+  color: var(--warm-dark);
+  text-align: right;
+}
+
+.balcony-card {
+  display: grid;
+  grid-template-columns: minmax(220px, 0.9fr) minmax(0, 0.8fr);
+  gap: 0;
+  overflow: hidden;
+}
+
+.balcony-card .image-card {
+  min-height: 340px;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.balcony-card > div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 28px;
+}
+
+.balcony-card h3 {
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(1.8rem, 3vw, 3.2rem);
+  line-height: 1;
+  color: var(--warm-dark);
+}
+
+.balcony-card p {
+  margin: 14px 0 20px;
+  color: var(--muted);
+}
+
+.home-treatments {
+  background:
+    radial-gradient(circle at 8% 0, rgba(158, 166, 110, 0.22), transparent 18rem),
+    linear-gradient(180deg, #eef0da, #f4e5d4);
+}
+
+.home-gallery-story {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.72fr) minmax(280px, 0.68fr) minmax(260px, 0.72fr);
+  gap: 18px;
+  align-items: stretch;
+  padding: 58px 6vw;
+  background:
+    linear-gradient(180deg, rgba(242, 240, 223, 0.58), rgba(255, 248, 238, 0.9)),
+    #f7f4e6;
+}
+
+.home-gallery-story > div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 28px;
+}
+
+.home-gallery-story p {
+  margin: 16px 0 24px;
+  color: var(--muted);
+}
+
+.home-story-photo {
+  min-height: 430px;
+}
+
+.home-booking-strip {
+  margin-top: 0;
+  background:
+    linear-gradient(90deg, rgba(58, 36, 26, 0.94), rgba(89, 98, 61, 0.86)),
+    var(--warm-dark);
 }
 
 .services-page {
@@ -1442,6 +1606,9 @@ textarea {
 
   .booking-page,
   .booking-strip,
+  .home-essentials,
+  .balcony-card,
+  .home-gallery-story,
   .services-hero,
   .service-menu-band,
   .schedule-head {
@@ -1511,6 +1678,11 @@ textarea {
 
   .image-card.tall {
     min-height: 360px;
+  }
+
+  .home-story-photo,
+  .balcony-card .image-card {
+    min-height: 320px;
   }
 }
 

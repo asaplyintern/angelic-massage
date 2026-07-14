@@ -6,6 +6,20 @@ const business = {
 
 const services = [
   {
+    id: "blend",
+    name: "Blend",
+    category: "Relaxation Massage with Deep Tissue",
+    description: "The most popular treatment: relaxing flow with deeper work where your body needs it most.",
+    image: "/assets/blend-massage.jpg",
+    popular: true,
+    prices: [
+      ["30 minutes", 80],
+      ["1 hour", 120],
+      ["90 minutes", 160],
+      ["2 hours", 220],
+    ],
+  },
+  {
     id: "soft-touch",
     name: "Soft Touch",
     category: "Relaxation Massage",
@@ -26,20 +40,6 @@ const services = [
     description: "Focused pressure for tight muscles, built-up tension, and areas that need deeper bodywork.",
     image: "/assets/deep-tissue-back.jpg",
     popular: false,
-    prices: [
-      ["30 minutes", 80],
-      ["1 hour", 120],
-      ["90 minutes", 160],
-      ["2 hours", 220],
-    ],
-  },
-  {
-    id: "blend",
-    name: "Blend",
-    category: "Relaxation Massage with Deep Tissue",
-    description: "The most popular treatment: relaxing flow with deeper work where your body needs it most.",
-    image: "/assets/blend-massage.jpg",
-    popular: true,
     prices: [
       ["30 minutes", 80],
       ["1 hour", 120],
@@ -124,7 +124,7 @@ function setupBookingForm() {
 
   function updateDurations() {
     const service = services.find((item) => item.id === serviceSelect.value);
-    durationSelect.innerHTML = service.prices
+    durationSelect.innerHTML = '<option value="" selected disabled>Choose a duration</option>' + service.prices
       .map(([duration, price]) => `<option value="${duration}">${duration} - $${price} CAD</option>`)
       .join("");
   }

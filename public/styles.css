@@ -338,11 +338,11 @@ img {
   color: #fff3e4;
 }
 
-.hot-stone-section h2 {
+.hot-stone-section .section-heading h2 {
   color: #fff3e4;
 }
 
-.hot-stone-section p {
+.hot-stone-section .section-heading p {
   color: #ead2bc;
 }
 

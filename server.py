@@ -40,7 +40,7 @@ SERVICES = [
         "id": "soft-touch",
         "name": "Soft Touch",
         "category": "Relaxation Massage",
-        "description": "A calm, gentle massage designed for rest, stress relief, and a lighter therapeutic touch.",
+        "description": "Gentle relaxation massage.",
         "popular": False,
         "prices": [
             {"duration": "30 minutes", "price": 80},
@@ -53,7 +53,7 @@ SERVICES = [
         "id": "deep-tissue",
         "name": "Deep Tissue",
         "category": "Therapeutic Massage",
-        "description": "Focused pressure for tight muscles, built-up tension, and areas that need deeper bodywork.",
+        "description": "Focused pressure for tight muscles.",
         "popular": False,
         "prices": [
             {"duration": "30 minutes", "price": 80},
@@ -66,7 +66,7 @@ SERVICES = [
         "id": "blend",
         "name": "Blend",
         "category": "Relaxation Massage with Deep Tissue",
-        "description": "The most popular treatment: relaxing flow with deeper work where your body needs it most.",
+        "description": "Relaxation massage with deeper pressure where needed.",
         "popular": True,
         "prices": [
             {"duration": "30 minutes", "price": 80},
@@ -79,7 +79,7 @@ SERVICES = [
         "id": "hot-stone",
         "name": "Hot Stone Therapy",
         "category": "Stone Therapy",
-        "description": "A warming stone treatment for deep relaxation, comfort, and eased muscle tension.",
+        "description": "Warm stone massage.",
         "popular": False,
         "prices": [
             {"duration": "1 hour", "price": 150},

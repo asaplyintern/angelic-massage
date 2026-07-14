@@ -342,7 +342,7 @@ img {
 
 .hot-stone-section {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(260px, 0.45fr);
+  grid-template-columns: minmax(300px, 0.48fr) minmax(0, 1fr);
   gap: 18px;
   align-items: stretch;
   background:
@@ -354,9 +354,9 @@ img {
 }
 
 .hot-stone-feature {
-  display: grid;
-  grid-template-columns: minmax(0, 0.9fr) minmax(320px, 0.7fr);
-  gap: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   padding: 28px;
   border: 1px solid rgba(223, 200, 181, 0.72);
   border-radius: 8px;
@@ -387,9 +387,14 @@ img {
   font-size: 1.04rem;
 }
 
+.hot-stone-copy .button {
+  width: fit-content;
+  margin-top: 22px;
+}
+
 .hot-stone-prices {
   max-width: 520px;
-  margin-top: 24px;
+  margin-top: 22px;
 }
 
 .hot-stone-prices li {
@@ -398,36 +403,14 @@ img {
   font-size: 1.02rem;
 }
 
-.hot-stone-booking {
+.hot-stone-gallery {
   display: grid;
-  gap: 14px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
 }
 
-.hot-stone-main-photo {
-  min-height: 310px;
-  box-shadow: 0 14px 34px rgba(75, 43, 28, 0.16);
-}
-
-.hot-stone-action {
-  display: grid;
-  gap: 10px;
-  padding: 18px;
-  border-radius: 8px;
-  background: #3a241a;
-  color: #fff7ee;
-  box-shadow: 0 14px 34px rgba(75, 43, 28, 0.14);
-}
-
-.hot-stone-action span {
-  color: #ead2bc;
-}
-
-.hot-stone-action .button {
-  width: 100%;
-}
-
-.hot-stone-wide-photo {
-  min-height: 100%;
+.hot-stone-photo {
+  min-height: 460px;
   box-shadow: 0 18px 42px rgba(75, 43, 28, 0.14);
 }
 
@@ -1476,6 +1459,7 @@ textarea {
   .owner-band,
   .hot-stone-section,
   .hot-stone-feature,
+  .hot-stone-gallery,
   .image-grid,
   .image-grid.two {
     grid-template-columns: 1fr;

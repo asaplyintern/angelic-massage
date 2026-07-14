@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Services | Angelic Massage</title>
-    <link rel="stylesheet" href="/styles.css?v=services-hotstone-fix">
+    <link rel="stylesheet" href="/styles.css?v=copy-hotstone-cleanup">
   </head>
   <body>
     <header class="site-header">
@@ -21,8 +21,8 @@
       <section class="services-hero">
         <div class="services-hero-copy">
           <span class="eyebrow">Treatment Menu</span>
-          <h1>Massage care shaped around how your body feels.</h1>
-          <p>Choose a focused treatment, then request an appointment time from the scheduling page. Lakeview balcony massage can be added to any massage service for an extra $20 CAD.</p>
+          <h1>Massage Services</h1>
+          <p>Choose a service, then request an appointment time.</p>
         </div>
         <figure class="services-hero-photo">
           <img src="/assets/warm-massage-room.jpg" alt="Warm massage room with spa lighting">
@@ -33,10 +33,10 @@
         <div class="menu-sidebar">
           <span class="eyebrow">Popular first</span>
           <h2>Available Treatments</h2>
-          <p>Blend is the most requested massage and appears first. Tap a treatment card to book that exact service.</p>
+          <p>Blend is the most requested massage.</p>
           <div class="menu-note">
             <strong>Lakeview balcony</strong>
-            <span>Add outdoor lakeview service to any massage for $20 CAD.</span>
+            <span>Add to any massage for $20 CAD.</span>
           </div>
         </div>
         <div class="service-grid" id="all-services"></div>
@@ -47,33 +47,29 @@
           <div class="hot-stone-copy">
             <span class="eyebrow">Warm stone treatment</span>
             <h3>Hot Stone Therapy</h3>
-            <p>A focused warming service with simple appointment options and clear pricing.</p>
+            <p>Warm stones and steady pressure.</p>
+            <a class="button" href="/booking?from=services&service=hot-stone">Book Hot Stone Therapy</a>
             <ul class="price-list hot-stone-prices">
               <li><span>1 hour</span><span>$150 CAD</span></li>
               <li><span>90 minutes</span><span>$190 CAD</span></li>
               <li><span>2 hours</span><span>$250 CAD</span></li>
             </ul>
           </div>
-          <div class="hot-stone-booking">
-            <figure class="image-card hot-stone-main-photo">
-              <img src="/assets/hot-stones-back.jpg" alt="Hot stones placed along the back">
-            </figure>
-            <div class="hot-stone-action">
-              <strong>Ready to schedule hot stone therapy?</strong>
-              <span>Lakeview balcony option available for an extra $20 CAD.</span>
-              <a class="button" href="/booking?from=services&service=hot-stone">Book Hot Stone Therapy</a>
-            </div>
-          </div>
         </article>
-        <figure class="image-card hot-stone-wide-photo reveal">
-          <img src="/assets/hot-stones-shoulder.jpg" alt="Hot stone massage on the shoulders">
-        </figure>
+        <div class="hot-stone-gallery">
+          <figure class="image-card hot-stone-photo reveal">
+            <img src="/assets/hot-stones-back.jpg" alt="Hot stones placed along the back">
+          </figure>
+          <figure class="image-card hot-stone-photo reveal">
+            <img src="/assets/hot-stones-shoulder.jpg" alt="Hot stone massage on the shoulders">
+          </figure>
+        </div>
       </section>
 
       <section class="booking-strip" aria-label="Book an appointment">
         <div>
           <h2>Choose your treatment time</h2>
-          <p>Submit an appointment request and it will be saved for the admin team to confirm, reschedule, or cancel.</p>
+          <p>Select a service, date, and time.</p>
         </div>
         <a class="button" href="/booking?from=services">Book Appointment</a>
       </section>
@@ -97,6 +93,6 @@
         <a data-email></a>
       </div>
     </footer>
-    <script src="/site.js?v=services-hotstone-fix"></script>
+    <script src="/site.js?v=copy-hotstone-cleanup"></script>
   </body>
 </html>

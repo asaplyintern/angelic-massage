@@ -154,7 +154,7 @@ function setupBookingForm() {
 
 function setupRevealAnimations() {
   const items = document.querySelectorAll(
-    ".hero-copy, .hero-actions, .feature, .service-card, .treatment-highlight, .image-card, .photo-marquee, .booking-strip, .booking-panel, .admin-panel, .section-heading, .page-title"
+    ".hero-copy, .hero-actions, .feature, .service-card, .image-card, .booking-strip, .booking-panel, .admin-panel, .section-heading, .page-title"
   );
   items.forEach((item) => item.classList.add("reveal"));
   if (!("IntersectionObserver" in window)) {

@@ -86,17 +86,15 @@ a {
   left: 50%;
   transform: translateX(-50%);
   isolation: isolate;
-  padding: 10px 30px 12px;
-  font-family: "Snell Roundhand", "Brush Script MT", "Segoe Script", cursive;
-  font-size: 2rem;
-  font-weight: 500;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 7px;
+  padding: 8px 24px 10px;
   color: #fff4df;
   white-space: nowrap;
   letter-spacing: 0;
   line-height: 1;
-  text-shadow:
-    0 1px 0 rgba(58, 36, 26, 0.76),
-    0 0 18px rgba(255, 222, 164, 0.22);
+  text-shadow: 0 0 18px rgba(255, 222, 164, 0.2);
 }
 
 .brand::selection {
@@ -105,28 +103,42 @@ a {
 
 .brand::before {
   position: absolute;
-  right: 0;
-  bottom: 5px;
-  left: 0;
+  inset: 2px -14px 1px;
   z-index: -1;
-  height: 9px;
   content: "";
-  border-top: 1px solid rgba(255, 244, 223, 0.82);
-  border-bottom: 1px solid rgba(111, 67, 45, 0.82);
-  border-radius: 999px;
-  transform: skewX(-22deg);
+  border-top: 1px solid rgba(255, 244, 223, 0.62);
+  border-bottom: 1px solid rgba(196, 139, 97, 0.72);
+  border-radius: 50%;
+  transform: skewX(-14deg);
 }
 
 .brand::after {
   position: absolute;
-  top: 50%;
-  right: 8px;
-  left: 8px;
+  right: 18px;
+  bottom: 5px;
+  left: 18px;
   z-index: -1;
-  height: 1px;
+  height: 2px;
   content: "";
-  background: linear-gradient(90deg, transparent, rgba(255, 244, 223, 0.74), rgba(111, 67, 45, 0.74), transparent);
-  transform: translateY(-50%) skewX(-22deg);
+  background: linear-gradient(90deg, transparent, #fff4df 18%, #d7a56f 52%, transparent);
+  border-radius: 999px;
+  transform: skewX(-18deg);
+}
+
+.brand-angelic {
+  font-family: "Apple Chancery", "Snell Roundhand", "Brush Script MT", "Segoe Script", cursive;
+  font-size: 2.1rem;
+  font-weight: 400;
+  color: #fff7ee;
+}
+
+.brand-massage {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 1.02rem;
+  font-weight: 700;
+  color: #e0b47e;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
 }
 
 .header-action,
@@ -434,12 +446,18 @@ img {
   font-size: 1.02rem;
 }
 
-.hot-stone-prices a {
-  color: #fff7ee;
+.hot-stone-section .hot-stone-prices,
+.hot-stone-section .hot-stone-prices li,
+.hot-stone-section .hot-stone-prices a,
+.hot-stone-section .hot-stone-prices a:visited,
+.hot-stone-section .hot-stone-prices a span {
+  color: #fff7ee !important;
+  opacity: 1;
+  text-shadow: 0 1px 8px rgba(16, 10, 7, 0.28);
 }
 
-.hot-stone-prices a:hover,
-.hot-stone-prices a:focus-visible {
+.hot-stone-section .hot-stone-prices a:hover,
+.hot-stone-section .hot-stone-prices a:focus-visible {
   background: rgba(255, 248, 238, 0.14);
   box-shadow: 0 12px 24px rgba(16, 10, 7, 0.28);
 }
@@ -1678,9 +1696,16 @@ textarea {
 
 @media (max-width: 1180px) and (min-width: 901px) {
   .brand {
-    font-size: 1.62rem;
     padding-left: 16px;
     padding-right: 16px;
+  }
+
+  .brand-angelic {
+    font-size: 1.72rem;
+  }
+
+  .brand-massage {
+    font-size: 0.9rem;
   }
 }
 
@@ -1701,6 +1726,14 @@ textarea {
     transform: none;
     order: -1;
     align-self: center;
+  }
+
+  .brand-angelic {
+    font-size: 1.95rem;
+  }
+
+  .brand-massage {
+    font-size: 0.92rem;
   }
 
   .brand::before,

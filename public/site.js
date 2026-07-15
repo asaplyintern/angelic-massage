@@ -303,7 +303,7 @@ function fallbackSlots(dateValue, duration) {
 
 function setupRevealAnimations() {
   const items = document.querySelectorAll(
-    ".hero-copy, .hero-actions, .home-essentials-copy, .balcony-card, .home-gallery-story > div, .services-hero-copy, .services-hero-panel, .services-hero-photo, .menu-sidebar, .schedule-picker, .feature, .service-card, .hot-stone-feature, .image-card, .eyelash-copy, .about-card, .about-copy, .about-split-photo, .owner-photo, .owner-story, .about-photo, .booking-strip, .booking-panel, .admin-panel, .section-heading, .page-title"
+    ".hero-copy, .hero-actions, .home-essentials-copy, .balcony-card, .home-gallery-story > div, .services-title, .schedule-picker, .feature, .service-card, .hot-stone-feature, .image-card, .eyelash-copy, .about-card, .about-copy, .about-split-photo, .owner-photo, .owner-story, .about-photo, .booking-strip, .booking-panel, .admin-panel, .section-heading, .page-title"
   );
   items.forEach((item) => item.classList.add("reveal"));
   if (!("IntersectionObserver" in window)) {

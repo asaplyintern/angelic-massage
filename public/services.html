@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Services | Angelic Massage</title>
-    <link rel="stylesheet" href="/styles.css?v=balcony-button">
+    <link rel="stylesheet" href="/styles.css?v=professional-refresh">
   </head>
   <body>
     <header class="site-header">
@@ -22,21 +22,36 @@
         <div class="services-hero-copy">
           <span class="eyebrow">Treatment Menu</span>
           <h1>Massage Services</h1>
-          <p>Choose a service, then request an appointment time.</p>
+          <p>Choose a massage, review the timing, then request an appointment.</p>
+          <div class="service-hero-actions">
+            <a class="button" href="/booking?from=services">Book Appointment</a>
+            <a class="button secondary" href="#treatment-menu">View Treatments</a>
+          </div>
         </div>
-        <figure class="services-hero-photo">
-          <img src="/assets/warm-massage-room.jpg" alt="Warm massage room with spa lighting">
-        </figure>
+        <div class="services-hero-panel" aria-label="Service highlights">
+          <article>
+            <span>Most popular</span>
+            <strong>Blend</strong>
+          </article>
+          <article>
+            <span>Outdoor upgrade</span>
+            <strong>+$20 CAD</strong>
+          </article>
+          <article>
+            <span>Open</span>
+            <strong>Mon-Sat</strong>
+          </article>
+        </div>
       </section>
 
-      <section class="service-menu-band">
+      <section class="service-menu-band" id="treatment-menu">
         <div class="menu-sidebar">
           <span class="eyebrow">Popular first</span>
           <h2>Available Treatments</h2>
-          <p>Blend is the most requested massage.</p>
+          <p>Tap a treatment card to begin booking that service.</p>
           <div class="menu-note">
-            <strong>Lakeview balcony</strong>
-            <span>Add to any massage for $20 CAD.</span>
+            <strong>Blend</strong>
+            <span>Relaxation massage with deeper pressure where needed.</span>
           </div>
         </div>
         <div class="service-grid" id="all-services"></div>
@@ -66,18 +81,11 @@
         </div>
       </section>
 
-      <section class="booking-strip" aria-label="Book an appointment">
-        <div>
-          <h2>Choose your treatment time</h2>
-          <p>Select a service, date, and time.</p>
-        </div>
-        <a class="button" href="/booking?from=services">Book Appointment</a>
-      </section>
-
       <section class="band eyelash-section">
-        <div class="section-heading">
-          <h2>Coming soon</h2>
-          <p>Eyelash extensions will be added to the service menu later.</p>
+        <div class="eyelash-copy">
+          <span class="eyebrow">Coming soon</span>
+          <h2>Eyelash Extensions</h2>
+          <p>This service will be added to the booking menu later.</p>
         </div>
         <figure class="image-card eyelash-preview">
           <img src="/assets/eyelash-extensions.jpg" alt="Eyelash extension service">
@@ -93,6 +101,6 @@
         <a data-email></a>
       </div>
     </footer>
-    <script src="/site.js?v=balcony-button"></script>
+    <script src="/site.js?v=professional-refresh"></script>
   </body>
 </html>

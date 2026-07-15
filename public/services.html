@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Services | Angelic Massage</title>
-    <link rel="stylesheet" href="/styles.css?v=professional-refresh">
+    <link rel="stylesheet" href="/styles.css?v=duration-select">
   </head>
   <body>
     <header class="site-header">
@@ -48,7 +48,7 @@
         <div class="menu-sidebar">
           <span class="eyebrow">Popular first</span>
           <h2>Available Treatments</h2>
-          <p>Tap a treatment card to begin booking that service.</p>
+          <p>Select a time and price to begin booking that treatment.</p>
           <div class="menu-note">
             <strong>Blend</strong>
             <span>Relaxation massage with deeper pressure where needed.</span>
@@ -65,9 +65,24 @@
             <p>Warm stones and steady pressure.</p>
             <a class="button" href="/booking?from=services&service=hot-stone">Book Hot Stone Therapy</a>
             <ul class="price-list hot-stone-prices">
-              <li><span>1 hour</span><span>$150 CAD</span></li>
-              <li><span>90 minutes</span><span>$190 CAD</span></li>
-              <li><span>2 hours</span><span>$250 CAD</span></li>
+              <li>
+                <a href="/booking?from=services&service=hot-stone&duration=1%20hour">
+                  <span>1 hour</span>
+                  <span>$150 CAD</span>
+                </a>
+              </li>
+              <li>
+                <a href="/booking?from=services&service=hot-stone&duration=90%20minutes">
+                  <span>90 minutes</span>
+                  <span>$190 CAD</span>
+                </a>
+              </li>
+              <li>
+                <a href="/booking?from=services&service=hot-stone&duration=2%20hours">
+                  <span>2 hours</span>
+                  <span>$250 CAD</span>
+                </a>
+              </li>
             </ul>
           </div>
         </article>
@@ -101,6 +116,6 @@
         <a data-email></a>
       </div>
     </footer>
-    <script src="/site.js?v=professional-refresh"></script>
+    <script src="/site.js?v=duration-select"></script>
   </body>
 </html>

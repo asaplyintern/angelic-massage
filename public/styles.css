@@ -896,7 +896,8 @@ img {
 }
 
 .services-page .service-card:first-child h3,
-.services-page .service-card:first-child .price-list li {
+.services-page .service-card:first-child .price-list li,
+.services-page .service-card:first-child .price-list a {
   color: #fff7ee;
 }
 
@@ -1037,13 +1038,58 @@ img {
 }
 
 .price-list li {
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
-  padding-top: 8px;
   border-top: 1px solid rgba(138, 90, 54, 0.16);
   color: var(--warm-dark);
   font-weight: 700;
+}
+
+.price-list a {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 14px;
+  border-radius: 6px;
+  color: inherit;
+  text-decoration: none;
+  transition: transform 180ms ease, background 180ms ease, box-shadow 180ms ease, color 180ms ease;
+}
+
+.price-list a::after {
+  content: "Select";
+  position: absolute;
+  right: 14px;
+  bottom: calc(100% - 4px);
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: #d7a56f;
+  color: #211711;
+  font-size: 0.72rem;
+  font-weight: 850;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 180ms ease, transform 180ms ease;
+  pointer-events: none;
+}
+
+.price-list a:hover,
+.price-list a:focus-visible {
+  transform: translateY(-5px);
+  background: rgba(215, 165, 111, 0.18);
+  box-shadow: 0 12px 24px rgba(75, 43, 28, 0.16);
+  outline: none;
+}
+
+.price-list a:hover::after,
+.price-list a:focus-visible::after {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.services-page .service-card:first-child .price-list a:hover,
+.services-page .service-card:first-child .price-list a:focus-visible {
+  background: rgba(255, 248, 238, 0.12);
+  box-shadow: 0 12px 24px rgba(16, 10, 7, 0.26);
 }
 
 .booking-strip {

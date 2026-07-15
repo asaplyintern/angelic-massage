@@ -87,7 +87,7 @@ function renderServices(targetId, limit) {
     .slice(0, limit || visibleServices.length)
     .map(
       (service) => `
-        <a class="service-card reveal" href="/booking?from=${source}&service=${service.id}">
+        <article class="service-card reveal">
           <img class="service-image" src="${service.image}" alt="${service.name} treatment">
           ${service.popular ? '<span class="badge">Most Popular</span>' : ""}
           <div>
@@ -97,10 +97,17 @@ function renderServices(targetId, limit) {
           </div>
           <ul class="price-list">
             ${service.prices
-              .map(([duration, price]) => `<li><span>${duration}</span><span>$${price} CAD</span></li>`)
+              .map(([duration, price]) => `
+                <li>
+                  <a href="/booking?from=${source}&service=${service.id}&duration=${encodeURIComponent(duration)}">
+                    <span>${duration}</span>
+                    <span>$${price} CAD</span>
+                  </a>
+                </li>
+              `)
               .join("")}
           </ul>
-        </a>
+        </article>
       `
     )
     .join("");
@@ -129,6 +136,8 @@ function setupBookingForm() {
     .map((service) => `<option value="${service.id}">${service.name} - ${service.category}</option>`)
     .join("");
   const requestedService = params.get("service");
+  const requestedDuration = params.get("duration");
+  let appliedRequestedDuration = false;
   if (services.some((service) => service.id === requestedService)) {
     serviceSelect.value = requestedService;
   }
@@ -144,8 +153,16 @@ function setupBookingForm() {
     durationSelect.innerHTML = '<option value="" selected disabled>Choose a duration</option>' + service.prices
       .map(([duration, price]) => `<option value="${duration}">${duration} - $${price} CAD</option>`)
       .join("");
+    if (
+      !appliedRequestedDuration &&
+      requestedDuration &&
+      service.prices.some(([duration]) => duration === requestedDuration)
+    ) {
+      durationSelect.value = requestedDuration;
+      appliedRequestedDuration = true;
+    }
     appointmentAt.value = "";
-    renderEmptySlots("Choose a duration to see available times.");
+    renderEmptySlots(durationSelect.value ? "Checking available times..." : "Choose a duration to see available times.");
   }
 
   async function updateSlots() {

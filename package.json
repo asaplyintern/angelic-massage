@@ -1,0 +1,15 @@
+{
+  "name": "angelic-massage",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "vercel dev",
+    "check": "node --check public/site.js && node --check public/admin.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.45.4"
+  },
+  "devDependencies": {
+    "vercel": "^37.8.0"
+  }
+}

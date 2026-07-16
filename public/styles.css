@@ -314,9 +314,9 @@ main {
   max-width: min(100%, 980px);
   font-family: Didot, "Bodoni 72", "Bodoni 72 Smallcaps", "Times New Roman", serif;
   font-size: clamp(2.5rem, 6vw, 6.25rem);
-  font-weight: 300;
+  font-weight: 150;
   line-height: 1.18;
-  letter-spacing: 0.28em;
+  letter-spacing: 0.56em;
   color: #fff7ee;
   text-shadow: 0 8px 32px rgba(0, 0, 0, 0.34);
 }
@@ -2029,7 +2029,7 @@ textarea {
   }
 
   .hero h1 {
-    letter-spacing: 0.18em;
+    letter-spacing: 0.36em;
   }
 
   .image-card.tall {
@@ -2117,7 +2117,7 @@ textarea {
 
   .hero h1 {
     font-size: clamp(2.25rem, 11vw, 4.2rem);
-    letter-spacing: 0.12em;
+    letter-spacing: 0.24em;
   }
 
   .booking-strip {

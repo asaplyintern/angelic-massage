@@ -1,6 +1,6 @@
 const { appointmentToDict } = require("../_lib/appointments");
 const { methodNotAllowed, requireAdmin, sendJson } = require("../_lib/http");
-const { getSupabase } = require("../_lib/supabase");
+const { getFirestore } = require("../_lib/firebase");
 
 module.exports = async function handler(req, res) {
   if (req.method !== "GET") {
@@ -15,16 +15,20 @@ module.exports = async function handler(req, res) {
     return;
   }
 
-  const like = `%${search}%`;
-  const { data, error } = await getSupabase()
-    .from("appointments")
-    .select("*")
-    .or(`email.ilike.${like},phone.ilike.${like},customer_name.ilike.${like}`)
-    .order("appointment_start", { ascending: false });
-
-  if (error) {
+  const term = search.toLowerCase();
+  try {
+    const snapshot = await getFirestore()
+      .collection("appointments")
+      .orderBy("appointment_start", "desc")
+      .get();
+    const appointments = snapshot.docs
+      .map((doc) => ({ id: doc.id, ...doc.data() }))
+      .filter((appointment) => {
+        const haystack = `${appointment.email || ""} ${appointment.phone || ""} ${appointment.customer_name || ""}`.toLowerCase();
+        return haystack.includes(term);
+      });
+    sendJson(res, 200, { appointments: appointments.map(appointmentToDict) });
+  } catch (error) {
     sendJson(res, 500, { error: error.message });
-    return;
   }
-  sendJson(res, 200, { appointments: (data || []).map(appointmentToDict) });
 };

@@ -4,7 +4,18 @@ const {
   isWithinBusinessHours,
 } = require("../../_lib/config");
 const { methodNotAllowed, readBody, requireAdmin, sendJson } = require("../../_lib/http");
-const { getSupabase } = require("../../_lib/supabase");
+const { getFirestore } = require("../../_lib/firebase");
+
+function overlaps(startValue, endValue, bookings, ignoreId) {
+  const start = new Date(startValue).getTime();
+  const end = new Date(endValue).getTime();
+  return bookings.some((booking) => {
+    if (booking.id === ignoreId || booking.status === "cancelled") return false;
+    const bookedStart = new Date(booking.appointment_start).getTime();
+    const bookedEnd = new Date(booking.appointment_end).getTime();
+    return start < bookedEnd && end > bookedStart;
+  });
+}
 
 module.exports = async function handler(req, res) {
   if (req.method !== "POST") {
@@ -21,13 +32,14 @@ module.exports = async function handler(req, res) {
     return;
   }
 
-  const id = Number(req.query.id);
-  if (!Number.isInteger(id)) {
+  const id = String(req.query.id || "").trim();
+  if (!id) {
     sendJson(res, 400, { error: "Invalid booking id" });
     return;
   }
 
-  const supabase = getSupabase();
+  const db = getFirestore();
+  const ref = db.collection("appointments").doc(id);
   const updates = {};
   const allowedStatuses = new Set(["pending", "confirmed", "cancelled", "complete"]);
 
@@ -40,16 +52,12 @@ module.exports = async function handler(req, res) {
   }
 
   if (payload.appointmentAt) {
-    const { data: existing, error: loadError } = await supabase
-      .from("appointments")
-      .select("duration")
-      .eq("id", id)
-      .single();
-
-    if (loadError || !existing) {
+    const existingDoc = await ref.get();
+    if (!existingDoc.exists) {
       sendJson(res, 404, { error: "Booking not found" });
       return;
     }
+    const existing = existingDoc.data();
 
     const durationMinutes = durationToMinutes(existing.duration);
     const start = new Date(payload.appointmentAt);
@@ -62,8 +70,18 @@ module.exports = async function handler(req, res) {
       return;
     }
 
+    const appointmentDate = payload.appointmentAt.slice(0, 10);
+    const appointmentEnd = addMinutesToLocalValue(payload.appointmentAt, durationMinutes);
+    const snapshot = await db.collection("appointments").where("appointment_date", "==", appointmentDate).get();
+    const bookings = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+    if (overlaps(payload.appointmentAt, appointmentEnd, bookings, id)) {
+      sendJson(res, 409, { error: "That appointment time is no longer available" });
+      return;
+    }
+
+    updates.appointment_date = appointmentDate;
     updates.appointment_start = payload.appointmentAt;
-    updates.appointment_end = addMinutesToLocalValue(payload.appointmentAt, durationMinutes);
+    updates.appointment_end = appointmentEnd;
   }
 
   if (!Object.keys(updates).length) {
@@ -72,13 +90,10 @@ module.exports = async function handler(req, res) {
   }
 
   updates.updated_at = new Date().toISOString();
-  const { error } = await supabase.from("appointments").update(updates).eq("id", id);
-
-  if (error) {
-    const conflictCodes = new Set(["23P01", "23505"]);
-    sendJson(res, conflictCodes.has(error.code) ? 409 : 500, {
-      error: conflictCodes.has(error.code) ? "That appointment time is no longer available" : error.message,
-    });
+  try {
+    await ref.update(updates);
+  } catch (error) {
+    sendJson(res, 500, { error: error.message });
     return;
   }
 

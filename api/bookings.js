@@ -5,7 +5,18 @@ const {
   isWithinBusinessHours,
 } = require("./_lib/config");
 const { methodNotAllowed, readBody, sendJson } = require("./_lib/http");
-const { getSupabase } = require("./_lib/supabase");
+const { getFirestore } = require("./_lib/firebase");
+
+function overlaps(startValue, endValue, bookings) {
+  const start = new Date(startValue).getTime();
+  const end = new Date(endValue).getTime();
+  return bookings.some((booking) => {
+    if (booking.status === "cancelled") return false;
+    const bookedStart = new Date(booking.appointment_start).getTime();
+    const bookedEnd = new Date(booking.appointment_end).getTime();
+    return start < bookedEnd && end > bookedStart;
+  });
+}
 
 module.exports = async function handler(req, res) {
   if (req.method !== "POST") {
@@ -53,34 +64,49 @@ module.exports = async function handler(req, res) {
   }
 
   const location = payload.balcony ? "Lakeview balcony (+$20)" : "Indoor treatment room";
-  const supabase = getSupabase();
-  const { data, error } = await supabase
-    .from("appointments")
-    .insert({
-      customer_name: payload.name.trim(),
-      email: payload.email.trim(),
-      phone: payload.phone.trim(),
-      service_id: service.id,
-      service_name: service.name,
-      duration: payload.duration,
-      duration_minutes: durationMinutes,
-      location,
-      balcony: Boolean(payload.balcony),
-      appointment_start: payload.appointmentAt,
-      appointment_end: addMinutesToLocalValue(payload.appointmentAt, durationMinutes),
-      notes: String(payload.notes || "").trim(),
-      status: "pending",
-    })
-    .select("id")
-    .single();
+  const appointmentStart = payload.appointmentAt;
+  const appointmentEnd = addMinutesToLocalValue(payload.appointmentAt, durationMinutes);
+  const appointmentDate = appointmentStart.slice(0, 10);
+  const db = getFirestore();
+  const appointments = db.collection("appointments");
+  const ref = appointments.doc();
 
-  if (error) {
-    const conflictCodes = new Set(["23P01", "23505"]);
-    sendJson(res, conflictCodes.has(error.code) ? 409 : 500, {
-      error: conflictCodes.has(error.code) ? "That appointment time is no longer available" : error.message,
+  try {
+    await db.runTransaction(async (transaction) => {
+      const snapshot = await transaction.get(appointments.where("appointment_date", "==", appointmentDate));
+      const bookings = snapshot.docs.map((doc) => doc.data());
+      if (overlaps(appointmentStart, appointmentEnd, bookings)) {
+        const error = new Error("That appointment time is no longer available");
+        error.statusCode = 409;
+        throw error;
+      }
+
+      const now = new Date().toISOString();
+      transaction.set(ref, {
+        customer_name: payload.name.trim(),
+        email: payload.email.trim(),
+        phone: payload.phone.trim(),
+        service_id: service.id,
+        service_name: service.name,
+        duration: payload.duration,
+        duration_minutes: durationMinutes,
+        location,
+        balcony: Boolean(payload.balcony),
+        appointment_date: appointmentDate,
+        appointment_start: appointmentStart,
+        appointment_end: appointmentEnd,
+        notes: String(payload.notes || "").trim(),
+        status: "pending",
+        created_at: now,
+        updated_at: now,
+        reminder_email_sent_at: null,
+        reminder_sms_sent_at: null,
+      });
     });
+  } catch (error) {
+    sendJson(res, error.statusCode || 500, { error: error.message });
     return;
   }
 
-  sendJson(res, 201, { ok: true, id: data.id });
+  sendJson(res, 201, { ok: true, id: ref.id });
 };

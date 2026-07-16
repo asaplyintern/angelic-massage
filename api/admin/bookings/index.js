@@ -1,6 +1,6 @@
 const { appointmentToDict } = require("../../_lib/appointments");
 const { methodNotAllowed, requireAdmin, sendJson } = require("../../_lib/http");
-const { getSupabase } = require("../../_lib/supabase");
+const { getFirestore } = require("../../_lib/firebase");
 
 module.exports = async function handler(req, res) {
   if (req.method !== "GET") {
@@ -10,22 +10,28 @@ module.exports = async function handler(req, res) {
   if (!requireAdmin(req, res)) return;
 
   const { day = "", status = "" } = req.query;
-  let query = getSupabase().from("appointments").select("*");
+  let appointments;
+  try {
+    const snapshot = await getFirestore()
+      .collection("appointments")
+      .orderBy("appointment_start", "asc")
+      .get();
 
-  if (status && status !== "all") {
-    query = query.eq("status", status);
-  }
-  if (day === "today") {
-    const today = new Date().toISOString().slice(0, 10);
-    query = query.gte("appointment_start", `${today}T00:00`).lte("appointment_start", `${today}T23:59`);
-  } else if (day === "upcoming") {
-    query = query.gte("appointment_start", new Date().toISOString().slice(0, 16));
-  }
-
-  const { data, error } = await query.order("appointment_start", { ascending: true });
-  if (error) {
+    appointments = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+  } catch (error) {
     sendJson(res, 500, { error: error.message });
     return;
   }
-  sendJson(res, 200, { appointments: (data || []).map(appointmentToDict) });
+
+  if (status && status !== "all") {
+    appointments = appointments.filter((appointment) => appointment.status === status);
+  }
+  if (day === "today") {
+    const today = new Date().toISOString().slice(0, 10);
+    appointments = appointments.filter((appointment) => appointment.appointment_start >= `${today}T00:00` && appointment.appointment_start <= `${today}T23:59`);
+  } else if (day === "upcoming") {
+    appointments = appointments.filter((appointment) => appointment.appointment_start >= new Date().toISOString().slice(0, 16));
+  }
+
+  sendJson(res, 200, { appointments: appointments.map(appointmentToDict) });
 };

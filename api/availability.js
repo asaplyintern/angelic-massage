@@ -5,7 +5,7 @@ const {
   formatTime,
 } = require("./_lib/config");
 const { methodNotAllowed, sendJson } = require("./_lib/http");
-const { getSupabase } = require("./_lib/supabase");
+const { getFirestore } = require("./_lib/firebase");
 
 function datePart(value) {
   return String(value || "").slice(0, 10);
@@ -60,17 +60,14 @@ module.exports = async function handler(req, res) {
 
   const openMinutes = bounds.openAt.getHours() * 60;
   const closeMinutes = bounds.closeAt.getHours() * 60;
-  const dayStart = `${selectedDate}T00:00`;
-  const dayEnd = `${selectedDate}T23:59`;
-  const supabase = getSupabase();
-  const { data: bookings, error } = await supabase
-    .from("appointments")
-    .select("appointment_start, appointment_end")
-    .neq("status", "cancelled")
-    .lt("appointment_start", dayEnd)
-    .gt("appointment_end", dayStart);
-
-  if (error) {
+  let bookings = [];
+  try {
+    const snapshot = await getFirestore()
+      .collection("appointments")
+      .where("appointment_date", "==", selectedDate)
+      .get();
+    bookings = snapshot.docs.map((doc) => doc.data()).filter((booking) => booking.status !== "cancelled");
+  } catch (error) {
     sendJson(res, 500, { error: error.message });
     return;
   }
@@ -84,7 +81,7 @@ module.exports = async function handler(req, res) {
       value,
       time: value.slice(11),
       label: displayLabel(minutes),
-      available: new Date(value) >= now && !overlaps(value, endValue, bookings || []),
+      available: new Date(value) >= now && !overlaps(value, endValue, bookings),
     });
   }
 

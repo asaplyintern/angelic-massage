@@ -7,7 +7,7 @@
     "check": "node --check public/site.js && node --check public/admin.js"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.45.4"
+    "firebase-admin": "^13.5.0"
   },
   "devDependencies": {
     "vercel": "^37.8.0"

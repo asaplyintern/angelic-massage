@@ -1,28 +1,25 @@
 # Angelic Massage Deployment
 
-This site is set up for Vercel hosting with Supabase as the database.
+This site is set up for Vercel hosting with Firebase Firestore as the database.
 
 ## What Runs Where
 
 - Public website: `public/`
 - Vercel API routes: `api/`
-- Supabase database setup: `supabase/schema.sql`
+- Firebase Firestore collection: `appointments`
 - Old local Python backend: `server.py`
 
 Vercel will use the JavaScript files in `api/`. The Python `server.py` can stay in the repo, but it is not used by the Vercel deployment.
 
-## Supabase Setup
+## Firebase Setup
 
-1. Create a Supabase project.
-2. Open Supabase SQL Editor.
-3. Paste and run the contents of `supabase/schema.sql`.
-4. Open Project Settings, then API.
-5. Copy these values:
-   - Project URL
-   - Secret key for server-side code
-   - Legacy `service_role` key, if your Supabase dashboard uses the older API key screen
+1. Create a Firebase project.
+2. Create a Firestore database using Standard edition.
+3. Open Project Settings, then Service accounts.
+4. Generate a new private key and download the JSON file.
+5. Keep the JSON file private. Do not commit it to GitHub.
 
-Keep the server-side key private. It belongs only in Vercel environment variables, never in frontend JavaScript.
+The Firestore `appointments` collection is created automatically when the first appointment is booked.
 
 ## Vercel Setup
 
@@ -31,13 +28,14 @@ Keep the server-side key private. It belongs only in Vercel environment variable
 3. Import the GitHub repo: `asaplyintern/angelic-massage`.
 4. Use the default project settings. If Vercel asks for an output directory, use `public`.
 5. Add these environment variables in Vercel Project Settings:
-   - `SUPABASE_URL`
-   - `SUPABASE_SECRET_KEY`
+   - `FIREBASE_PROJECT_ID`
+   - `FIREBASE_CLIENT_EMAIL`
+   - `FIREBASE_PRIVATE_KEY`
    - `ADMIN_PASSWORD`
    - `SESSION_SECRET`
 6. Deploy.
 
-If your Supabase dashboard only shows legacy keys, use `SUPABASE_SERVICE_ROLE_KEY` instead of `SUPABASE_SECRET_KEY`.
+`FIREBASE_PRIVATE_KEY` must be copied from the service account JSON. In Vercel, it is okay if the line breaks appear as `\n`.
 
 After deployment:
 
@@ -57,7 +55,7 @@ Open the local URL printed by Vercel.
 
 ## Booking Rules
 
-Appointments are saved in Supabase. Double booking is blocked by the database using an overlap constraint on appointment start and end times.
+Appointments are saved in Firestore. Public booking checks the selected appointment date inside a Firestore transaction before saving, so overlapping appointments are rejected.
 
 Working hours:
 
@@ -67,4 +65,4 @@ Working hours:
 
 ## Reminders
 
-Email or text reminders should be added with a scheduled Vercel Cron route. That route can check appointments happening tomorrow, send reminders through a provider such as Resend for email or Twilio for SMS, then mark each reminder as sent in Supabase.
+Email or text reminders should be added with a scheduled Vercel Cron route. That route can check appointments happening tomorrow, send reminders through a provider such as Resend for email or Twilio for SMS, then mark each reminder as sent in Firestore.

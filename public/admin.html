@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Admin | Angelic Massage</title>
-    <link rel="stylesheet" href="/styles.css?v=cursive-logo">
+    <link rel="stylesheet" href="/styles.css?v=booking-admin-content">
   </head>
   <body>
     <header class="site-header">
@@ -63,6 +63,54 @@
           </form>
           <div class="appointment-list" id="history-list"></div>
         </div>
+
+        <div class="admin-panel">
+          <h2>Website content</h2>
+          <p>Edit the public website without changing code. Service changes also update the booking form.</p>
+          <form class="form-grid" id="content-form">
+            <div class="notice" id="content-notice"></div>
+            <div class="admin-content-grid">
+              <div class="field">
+                <label for="content-address">Address</label>
+                <input id="content-address" name="address">
+              </div>
+              <div class="field">
+                <label for="content-phone">Business phone</label>
+                <input id="content-phone" name="phone">
+              </div>
+              <div class="field">
+                <label for="content-email">Business email</label>
+                <input id="content-email" name="email" type="email">
+              </div>
+            </div>
+
+            <h3>Services</h3>
+            <div class="service-editor-list" id="service-editor-list"></div>
+
+            <h3>About Us</h3>
+            <div class="field">
+              <label for="about-title">Main about title</label>
+              <input id="about-title" name="introTitle">
+            </div>
+            <div class="field">
+              <label for="about-intro">Opening paragraphs</label>
+              <textarea id="about-intro" name="introParagraphs"></textarea>
+            </div>
+            <div class="field">
+              <label for="about-studio">Studio care paragraph</label>
+              <textarea id="about-studio" name="studioParagraph"></textarea>
+            </div>
+            <div class="field">
+              <label for="about-care">Comfort paragraphs</label>
+              <textarea id="about-care" name="careParagraphs"></textarea>
+            </div>
+            <div class="field">
+              <label for="about-owner">Meet Avrea paragraphs</label>
+              <textarea id="about-owner" name="ownerParagraphs"></textarea>
+            </div>
+            <button class="button" type="submit">Save Website Content</button>
+          </form>
+        </div>
       </section>
     </main>
 
@@ -74,7 +122,7 @@
         <a data-email></a>
       </div>
     </footer>
-    <script src="/site.js?v=cursive-logo"></script>
+    <script src="/site.js?v=booking-admin-content"></script>
     <script src="/admin.js"></script>
   </body>
 </html>

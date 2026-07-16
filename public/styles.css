@@ -1627,6 +1627,11 @@ img {
   font-weight: 800;
 }
 
+.field small {
+  color: var(--muted);
+  font-weight: 650;
+}
+
 input,
 select,
 textarea {
@@ -1740,6 +1745,26 @@ textarea {
   display: grid;
   gap: 14px;
   margin-top: 18px;
+}
+
+.admin-content-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.service-editor-list {
+  display: grid;
+  gap: 16px;
+}
+
+.service-editor-card {
+  display: grid;
+  gap: 14px;
+  padding: 18px;
+  background: rgba(255, 248, 238, 0.72);
+  border: 1px solid var(--line);
+  border-radius: 8px;
 }
 
 .appointment-card {
@@ -2014,6 +2039,10 @@ textarea {
     display: grid;
     justify-content: stretch;
     gap: 8px;
+  }
+
+  .admin-content-grid {
+    grid-template-columns: 1fr;
   }
 }
 

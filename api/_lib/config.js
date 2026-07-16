@@ -1,11 +1,7 @@
 const crypto = require("crypto");
+const { DEFAULT_BUSINESS, DEFAULT_SERVICES } = require("./siteContent");
 
-const BUSINESS = {
-  name: "Angelic Massage",
-  address: "5227 Trepanier Bench Road, Peachland, British Columbia, Canada, V0H 1X2",
-  phone: "+1-778-363-9832",
-  email: "avrearain@gmail.com",
-};
+const BUSINESS = DEFAULT_BUSINESS;
 
 const BUSINESS_HOURS = {
   1: [6, 19],
@@ -16,59 +12,10 @@ const BUSINESS_HOURS = {
   6: [10, 18],
 };
 
-const SERVICES = [
-  {
-    id: "blend",
-    name: "Blend",
-    category: "Relaxation Massage with Deep Tissue",
-    description: "Relaxation massage with deeper pressure where needed.",
-    popular: true,
-    prices: [
-      { duration: "30 minutes", price: 80 },
-      { duration: "1 hour", price: 120 },
-      { duration: "90 minutes", price: 160 },
-      { duration: "2 hours", price: 220 },
-    ],
-  },
-  {
-    id: "soft-touch",
-    name: "Soft Touch",
-    category: "Relaxation Massage",
-    description: "Gentle relaxation massage.",
-    popular: false,
-    prices: [
-      { duration: "30 minutes", price: 80 },
-      { duration: "1 hour", price: 120 },
-      { duration: "90 minutes", price: 160 },
-      { duration: "2 hours", price: 220 },
-    ],
-  },
-  {
-    id: "deep-tissue",
-    name: "Deep Tissue",
-    category: "Therapeutic Massage",
-    description: "Focused pressure for tight muscles.",
-    popular: false,
-    prices: [
-      { duration: "30 minutes", price: 80 },
-      { duration: "1 hour", price: 120 },
-      { duration: "90 minutes", price: 160 },
-      { duration: "2 hours", price: 220 },
-    ],
-  },
-  {
-    id: "hot-stone",
-    name: "Hot Stone Therapy",
-    category: "Stone Therapy",
-    description: "Warm stone massage.",
-    popular: false,
-    prices: [
-      { duration: "1 hour", price: 150 },
-      { duration: "90 minutes", price: 190 },
-      { duration: "2 hours", price: 250 },
-    ],
-  },
-];
+const SERVICES = DEFAULT_SERVICES.map((service) => ({
+  ...service,
+  prices: service.prices.map(([duration, price]) => ({ duration, price })),
+}));
 
 function findService(serviceId) {
   return SERVICES.find((service) => service.id === serviceId);
@@ -152,6 +99,17 @@ function validSession(token) {
   return crypto.timingSafeEqual(Buffer.from(signature), Buffer.from(expected));
 }
 
+function normalizeNorthAmericaPhone(value) {
+  const digits = String(value || "").replace(/\D/g, "");
+  if (digits.length === 10) return `+1${digits}`;
+  if (digits.length === 11 && digits.startsWith("1")) return `+${digits}`;
+  return "";
+}
+
+function isValidNorthAmericaPhone(value) {
+  return Boolean(normalizeNorthAmericaPhone(value));
+}
+
 module.exports = {
   BUSINESS,
   BUSINESS_HOURS,
@@ -164,5 +122,7 @@ module.exports = {
   formatTime,
   isWithinBusinessHours,
   makeSession,
+  isValidNorthAmericaPhone,
+  normalizeNorthAmericaPhone,
   validSession,
 };

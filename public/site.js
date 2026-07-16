@@ -1,10 +1,10 @@
-const business = {
+let business = {
   address: "5227 Trepanier Bench Road, Peachland, British Columbia, Canada, V0H 1X2",
   phone: "+1-778-363-9832",
   email: "avrearain@gmail.com",
 };
 
-const services = [
+let services = [
   {
     id: "blend",
     name: "Blend",
@@ -62,6 +62,29 @@ const services = [
   },
 ];
 
+let aboutContent = null;
+
+async function loadSiteContent() {
+  try {
+    const response = await fetch("/api/site-content");
+    if (!response.ok) throw new Error("Site content could not be loaded");
+    const content = await response.json();
+    business = { ...business, ...(content.business || {}) };
+    if (Array.isArray(content.services) && content.services.length) services = content.services;
+    aboutContent = content.about || null;
+  } catch (error) {
+    aboutContent = null;
+  }
+}
+
+function escapeHtml(value) {
+  return String(value || "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;");
+}
+
 function fillFooter() {
   document.querySelectorAll("[data-address]").forEach((el) => {
     el.textContent = business.address;
@@ -76,32 +99,55 @@ function fillFooter() {
   });
 }
 
+function renderParagraphs(target, paragraphs) {
+  if (!target || !Array.isArray(paragraphs)) return;
+  target.innerHTML = paragraphs.map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join("");
+}
+
+function fillAboutContent() {
+  if (!aboutContent) return;
+  const title = document.querySelector("[data-about-title]");
+  if (title && aboutContent.introTitle) title.textContent = aboutContent.introTitle;
+  renderParagraphs(document.querySelector("[data-about-intro]"), aboutContent.introParagraphs);
+  const studio = document.querySelector("[data-about-studio]");
+  if (studio && aboutContent.studioParagraph) studio.textContent = aboutContent.studioParagraph;
+  renderParagraphs(document.querySelector("[data-about-care]"), aboutContent.careParagraphs);
+  renderParagraphs(document.querySelector("[data-about-owner]"), aboutContent.ownerParagraphs);
+}
+
+function normalizePhone(value) {
+  const digits = String(value || "").replace(/\D/g, "");
+  if (digits.length === 10) return `+1${digits}`;
+  if (digits.length === 11 && digits.startsWith("1")) return `+${digits}`;
+  return "";
+}
+
 function renderServices(targetId, limit) {
   const target = document.getElementById(targetId);
   if (!target) return;
   const source = window.location.pathname === "/services" ? "services" : "home";
   const visibleServices = targetId === "all-services"
-    ? services.filter((service) => service.id !== "hot-stone")
-    : services;
+    ? services.filter((service) => service.id !== "hot-stone" && service.active !== false)
+    : services.filter((service) => service.active !== false);
   target.innerHTML = visibleServices
     .slice(0, limit || visibleServices.length)
     .map(
       (service) => `
         <article class="service-card reveal">
-          <img class="service-image" src="${service.image}" alt="${service.name} treatment">
+          <img class="service-image" src="${escapeHtml(service.image)}" alt="${escapeHtml(service.name)} treatment">
           ${service.popular ? '<span class="badge">Most Popular</span>' : ""}
           <div>
-            <h3>${service.name}</h3>
-            <p><strong>${service.category}</strong></p>
-            <p>${service.description}</p>
+            <h3>${escapeHtml(service.name)}</h3>
+            <p><strong>${escapeHtml(service.category)}</strong></p>
+            <p>${escapeHtml(service.description)}</p>
           </div>
           <ul class="price-list">
             ${service.prices
               .map(([duration, price]) => `
                 <li>
-                  <a href="/booking?from=${source}&service=${service.id}&duration=${encodeURIComponent(duration)}">
-                    <span>${duration}</span>
-                    <span>$${price} CAD</span>
+                  <a href="/booking?from=${source}&service=${encodeURIComponent(service.id)}&duration=${encodeURIComponent(duration)}">
+                    <span>${escapeHtml(duration)}</span>
+                    <span>$${escapeHtml(price)} CAD</span>
                   </a>
                 </li>
               `)
@@ -133,7 +179,8 @@ function setupBookingForm() {
   dateInput.value = nextOpenDate(today);
 
   serviceSelect.innerHTML = '<option value="" selected disabled>Choose a service</option>' + services
-    .map((service) => `<option value="${service.id}">${service.name} - ${service.category}</option>`)
+    .filter((service) => service.active !== false)
+    .map((service) => `<option value="${escapeHtml(service.id)}">${escapeHtml(service.name)} - ${escapeHtml(service.category)}</option>`)
     .join("");
   const requestedService = params.get("service");
   const requestedDuration = params.get("duration");
@@ -151,7 +198,7 @@ function setupBookingForm() {
       return;
     }
     durationSelect.innerHTML = '<option value="" selected disabled>Choose a duration</option>' + service.prices
-      .map(([duration, price]) => `<option value="${duration}">${duration} - $${price} CAD</option>`)
+      .map(([duration, price]) => `<option value="${escapeHtml(duration)}">${escapeHtml(duration)} - $${escapeHtml(price)} CAD</option>`)
       .join("");
     if (
       !appliedRequestedDuration &&
@@ -234,6 +281,13 @@ function setupBookingForm() {
       return;
     }
     const data = Object.fromEntries(new FormData(form).entries());
+    const phone = normalizePhone(data.phone);
+    if (!phone) {
+      notice.textContent = "Please enter a valid 10-digit Canada/US phone number.";
+      notice.className = "notice error show";
+      return;
+    }
+    data.phone = phone;
     data.balcony = document.getElementById("balcony").checked;
     try {
       const response = await fetch("/api/bookings", {
@@ -248,7 +302,7 @@ function setupBookingForm() {
       appointmentAt.value = "";
       updateDurations();
       updateSlots();
-      notice.textContent = "Your appointment request has been saved. Angelic Massage will contact you to confirm.";
+      notice.textContent = "Your appointment request has been saved. If messaging is enabled, you will receive a text and email confirmation.";
       notice.className = "notice success show";
     } catch (error) {
       notice.textContent = error.message;
@@ -348,9 +402,15 @@ function setupMobileNavigation() {
   });
 }
 
-fillFooter();
-setupMobileNavigation();
-renderServices("services-preview", 3);
-renderServices("all-services");
-setupBookingForm();
-setupRevealAnimations();
+async function initSite() {
+  await loadSiteContent();
+  fillFooter();
+  fillAboutContent();
+  setupMobileNavigation();
+  renderServices("services-preview", 3);
+  renderServices("all-services");
+  setupBookingForm();
+  setupRevealAnimations();
+}
+
+initSite();

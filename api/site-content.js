@@ -6,6 +6,7 @@ module.exports = async function handler(req, res) {
     methodNotAllowed(res);
     return;
   }
+
   const content = await getSiteContent();
-  sendJson(res, 200, { business: content.business, services: content.services });
+  sendJson(res, 200, content);
 };

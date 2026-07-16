@@ -89,9 +89,18 @@ const DEFAULT_ABOUT = {
   ],
 };
 
-function normalizeService(service) {
+function slugify(value) {
+  return String(value || "service")
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 48) || "service";
+}
+
+function normalizeService(service, index = 0) {
   return {
-    id: String(service.id || "").trim(),
+    id: slugify(service.id || service.name || `service-${index + 1}`),
     name: String(service.name || "").trim(),
     category: String(service.category || "").trim(),
     description: String(service.description || "").trim(),
@@ -111,11 +120,19 @@ function normalizeService(service) {
 }
 
 function mergeContent(overrides = {}) {
+  const services = Array.isArray(overrides.services) && overrides.services.length
+    ? overrides.services.map(normalizeService).filter((service) => service.id && service.name)
+    : DEFAULT_SERVICES;
+  const seen = new Map();
+  const uniqueServices = services.map((service) => {
+    const count = seen.get(service.id) || 0;
+    seen.set(service.id, count + 1);
+    return count ? { ...service, id: `${service.id}-${count + 1}` } : service;
+  });
+
   return {
     business: { ...DEFAULT_BUSINESS, ...(overrides.business || {}) },
-    services: Array.isArray(overrides.services) && overrides.services.length
-      ? overrides.services.map(normalizeService).filter((service) => service.id && service.name)
-      : DEFAULT_SERVICES,
+    services: uniqueServices,
     about: { ...DEFAULT_ABOUT, ...(overrides.about || {}) },
   };
 }

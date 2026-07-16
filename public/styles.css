@@ -313,8 +313,8 @@ main {
 .hero h1 {
   max-width: min(100%, 980px);
   font-family: Didot, "Bodoni 72", "Bodoni 72 Smallcaps", "Times New Roman", serif;
-  font-size: clamp(2.5rem, 6vw, 6.25rem);
-  font-weight: 150;
+  font-size: clamp(2.1rem, 4.8vw, 5rem);
+  font-weight: 100;
   line-height: 1.18;
   letter-spacing: 0.56em;
   color: #fff7ee;
@@ -1773,6 +1773,40 @@ textarea {
   border-radius: 8px;
 }
 
+.admin-section-head,
+.service-editor-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.admin-section-head h3 {
+  margin: 0;
+}
+
+.service-editor-head {
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--line);
+}
+
+.service-editor-head strong {
+  display: block;
+  color: var(--warm-dark);
+  font-size: 1.05rem;
+}
+
+.service-editor-head span {
+  color: var(--muted);
+  font-size: 0.86rem;
+  font-weight: 700;
+}
+
+.text-button.danger {
+  color: #8d2e15;
+  border-color: rgba(141, 46, 21, 0.28);
+}
+
 .appointment-card {
   padding: 16px;
 }
@@ -2116,7 +2150,7 @@ textarea {
   }
 
   .hero h1 {
-    font-size: clamp(2.25rem, 11vw, 4.2rem);
+    font-size: clamp(2rem, 9vw, 3.65rem);
     letter-spacing: 0.24em;
   }
 

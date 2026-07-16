@@ -8,6 +8,7 @@ const historyList = document.getElementById("history-list");
 const contentForm = document.getElementById("content-form");
 const contentNotice = document.getElementById("content-notice");
 const serviceEditorList = document.getElementById("service-editor-list");
+const addServiceButton = document.getElementById("add-service");
 let editableServices = [];
 
 async function api(path, options = {}) {
@@ -113,12 +114,54 @@ function parsePrices(value) {
     .filter(([duration, amount]) => duration && Number.isFinite(amount));
 }
 
+function slugify(value) {
+  return String(value || "new-service")
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 48) || "new-service";
+}
+
+function uniqueServiceId(baseValue) {
+  const base = slugify(baseValue);
+  const used = new Set(editableServices.map((service) => service.id));
+  if (!used.has(base)) return base;
+  let count = 2;
+  while (used.has(`${base}-${count}`)) count += 1;
+  return `${base}-${count}`;
+}
+
+function newService() {
+  const id = uniqueServiceId("new-service");
+  return {
+    id,
+    name: "New Service",
+    category: "Massage Service",
+    description: "Short service description.",
+    image: "/assets/relaxation-back.jpg",
+    popular: false,
+    active: true,
+    prices: [
+      ["30 minutes", 80],
+      ["1 hour", 120],
+    ],
+  };
+}
+
 function renderServiceEditor(services) {
   editableServices = services || [];
   serviceEditorList.innerHTML = editableServices
     .map(
       (service, index) => `
         <article class="service-editor-card">
+          <div class="service-editor-head">
+            <div>
+              <strong>${escapeHtml(service.name || "Service")}</strong>
+              <span>${escapeHtml(service.id || "")}</span>
+            </div>
+            <button class="text-button danger" type="button" data-delete-service="${index}">Delete</button>
+          </div>
           <div class="admin-content-grid">
             <div class="field">
               <label for="service-name-${index}">Service name</label>
@@ -235,6 +278,17 @@ searchForm.addEventListener("submit", async (event) => {
 });
 
 if (serviceEditorList) {
+  serviceEditorList.addEventListener("click", (event) => {
+    const deleteIndex = event.target.dataset.deleteService;
+    if (deleteIndex === undefined) return;
+    const index = Number(deleteIndex);
+    if (!Number.isInteger(index) || !editableServices[index]) return;
+    const serviceName = editableServices[index].name || "this service";
+    if (!window.confirm(`Delete ${serviceName} from the website service list?`)) return;
+    editableServices.splice(index, 1);
+    renderServiceEditor(editableServices);
+  });
+
   serviceEditorList.addEventListener("input", (event) => {
     const index = Number(event.target.dataset.service);
     const key = event.target.dataset.key;
@@ -249,6 +303,15 @@ if (serviceEditorList) {
     if (Number.isInteger(index) && editableServices[index]) {
       editableServices[index][event.target.dataset.key] = event.target.checked;
     }
+  });
+}
+
+if (addServiceButton) {
+  addServiceButton.addEventListener("click", () => {
+    editableServices.push(newService());
+    renderServiceEditor(editableServices);
+    contentNotice.textContent = "New service added. Edit it, then save website content.";
+    contentNotice.className = "notice success show";
   });
 }
 

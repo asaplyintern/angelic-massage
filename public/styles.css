@@ -20,6 +20,12 @@
   box-sizing: border-box;
 }
 
+html,
+body {
+  width: 100%;
+  overflow-x: hidden;
+}
+
 body {
   margin: 0;
   background:
@@ -32,6 +38,11 @@ body {
 
 a {
   color: inherit;
+}
+
+img,
+svg {
+  max-width: 100%;
 }
 
 .site-header {
@@ -47,6 +58,39 @@ a {
   background: rgba(48, 30, 22, 0.88);
   border-bottom: 1px solid rgba(223, 200, 181, 0.2);
   backdrop-filter: blur(16px);
+}
+
+.nav-toggle {
+  display: none;
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  background: rgba(255, 248, 238, 0.08);
+  border: 1px solid rgba(244, 211, 180, 0.28);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.nav-toggle span {
+  display: block;
+  width: 18px;
+  height: 2px;
+  margin: 4px auto;
+  background: #fff4df;
+  border-radius: 999px;
+  transition: transform 0.18s ease, opacity 0.18s ease;
+}
+
+.site-header.menu-open .nav-toggle span:nth-child(1) {
+  transform: translateY(6px) rotate(45deg);
+}
+
+.site-header.menu-open .nav-toggle span:nth-child(2) {
+  opacity: 0;
+}
+
+.site-header.menu-open .nav-toggle span:nth-child(3) {
+  transform: translateY(-6px) rotate(-45deg);
 }
 
 .nav-left {
@@ -1728,14 +1772,69 @@ textarea {
 }
 
 @media (max-width: 900px) {
-  .site-header,
-  .nav-left,
+  .site-header {
+    justify-content: center;
+    min-height: 64px;
+    padding: 0 16px;
+  }
+
   .site-footer {
     align-items: flex-start;
     flex-direction: column;
   }
 
-  .site-header {
+  .nav-toggle {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    z-index: 3;
+    display: block;
+    transform: translateY(-50%);
+  }
+
+  .nav-left {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    display: grid;
+    gap: 8px;
+    max-height: 0;
+    padding: 0 16px;
+    overflow: hidden;
+    background: rgba(48, 30, 22, 0.96);
+    border-bottom: 1px solid rgba(223, 200, 181, 0.22);
+    box-shadow: 0 20px 32px rgba(33, 23, 17, 0.24);
+    opacity: 0;
+    pointer-events: none;
+    transition: max-height 0.22s ease, padding 0.22s ease, opacity 0.18s ease;
+  }
+
+  .site-header.menu-open .nav-left {
+    max-height: 230px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .nav-left a {
+    width: 100%;
+    padding: 12px 14px;
+  }
+
+  .header-action {
+    position: absolute;
+    top: calc(100% + 166px);
+    left: 16px;
+    right: 16px;
+    z-index: 2;
+    display: none;
+    min-height: 46px;
+  }
+
+  .site-header.menu-open .header-action {
     display: flex;
   }
 
@@ -1838,16 +1937,8 @@ textarea {
 
 @media (max-width: 560px) {
   .site-header {
-    padding: 16px;
-  }
-
-  .nav-left {
-    width: 100%;
-    gap: 6px;
-  }
-
-  .nav-left a {
-    width: 100%;
+    min-height: 60px;
+    padding: 0 12px;
   }
 
   .hero,

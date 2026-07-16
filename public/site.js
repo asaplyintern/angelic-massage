@@ -324,7 +324,32 @@ function setupRevealAnimations() {
   items.forEach((item) => observer.observe(item));
 }
 
+function setupMobileNavigation() {
+  const header = document.querySelector(".site-header");
+  const toggle = document.querySelector(".nav-toggle");
+  if (!header || !toggle) return;
+
+  function setMenuOpen(isOpen) {
+    header.classList.toggle("menu-open", isOpen);
+    toggle.setAttribute("aria-expanded", String(isOpen));
+    toggle.setAttribute("aria-label", isOpen ? "Close navigation menu" : "Open navigation menu");
+  }
+
+  toggle.addEventListener("click", () => {
+    setMenuOpen(!header.classList.contains("menu-open"));
+  });
+
+  header.querySelectorAll(".nav-left a, .header-action").forEach((link) => {
+    link.addEventListener("click", () => setMenuOpen(false));
+  });
+
+  window.addEventListener("resize", () => {
+    if (window.innerWidth > 900) setMenuOpen(false);
+  });
+}
+
 fillFooter();
+setupMobileNavigation();
 renderServices("services-preview", 3);
 renderServices("all-services");
 setupBookingForm();

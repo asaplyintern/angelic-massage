@@ -52,7 +52,7 @@ function card(booking) {
   `;
 }
 
-async function loadBookings(day = "upcoming", status = "all") {
+async function loadBookings(day = "upcoming", status = "all", options = {}) {
   try {
     const payload = await api(`/api/admin/bookings?day=${day}&status=${status}`);
     showDashboard();
@@ -60,7 +60,11 @@ async function loadBookings(day = "upcoming", status = "all") {
       ? payload.appointments.map(card).join("")
       : "<p>No appointments found.</p>";
   } catch (error) {
-    showLogin("Please log in to view appointments.");
+    if (error.message === "Admin login required") {
+      showLogin(options.initial ? "" : "Please log in to view appointments.");
+      return;
+    }
+    showLogin(`Login worked, but appointments could not load: ${error.message}`);
   }
 }
 
@@ -128,5 +132,4 @@ document.getElementById("logout").addEventListener("click", async () => {
   showLogin();
 });
 
-loadBookings();
-
+loadBookings("upcoming", "all", { initial: true });

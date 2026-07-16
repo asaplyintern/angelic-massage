@@ -311,12 +311,12 @@ main {
 }
 
 .hero h1 {
-  max-width: min(100%, 960px);
+  max-width: min(100%, 1080px);
   font-family: "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
   font-size: clamp(3rem, 7vw, 7.4rem);
   font-weight: 400;
   line-height: 0.94;
-  letter-spacing: 0;
+  letter-spacing: 0.055em;
   color: #fff7ee;
   text-shadow: 0 8px 32px rgba(0, 0, 0, 0.34);
 }

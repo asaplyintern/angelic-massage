@@ -133,8 +133,7 @@ svg {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  width: min(48vw, 520px);
+  width: min(34vw, 360px);
   height: 58px;
   padding: 0;
   color: #fff4df;
@@ -169,29 +168,6 @@ svg {
   color: #fff7ee;
   letter-spacing: 0.02em;
   transform: translateY(-1px);
-}
-
-.brand-wing {
-  flex: 1 1 120px;
-  max-width: 150px;
-  min-width: 86px;
-  height: 42px;
-  overflow: visible;
-  fill: rgba(255, 248, 238, 0.08);
-  stroke: rgba(255, 244, 223, 0.88);
-  stroke-width: 3;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  filter: drop-shadow(0 0 8px rgba(215, 165, 111, 0.16));
-}
-
-.brand-wing path:not(.wing-outline) {
-  stroke: rgba(229, 189, 136, 0.82);
-  stroke-width: 2;
-}
-
-.brand-wing-right {
-  transform: scaleX(-1);
 }
 
 .header-action,
@@ -1841,12 +1817,7 @@ textarea {
 
 @media (max-width: 1180px) and (min-width: 901px) {
   .brand {
-    width: min(42vw, 430px);
-  }
-
-  .brand-wing {
-    max-width: 105px;
-    min-width: 72px;
+    width: min(36vw, 320px);
   }
 }
 
@@ -1925,18 +1896,12 @@ textarea {
     transform: none;
     order: -1;
     align-self: center;
-    width: min(66vw, 360px);
+    width: min(60vw, 320px);
     height: 54px;
   }
 
   .brand-script {
     font-size: clamp(1.45rem, 4.4vw, 1.9rem);
-  }
-
-  .brand-wing {
-    max-width: 72px;
-    min-width: 44px;
-    height: 34px;
   }
 
   .brand::after {
@@ -2104,12 +2069,7 @@ textarea {
   }
 
   .brand {
-    width: min(70vw, 300px);
-  }
-
-  .brand-wing {
-    max-width: 54px;
-    min-width: 34px;
+    width: min(68vw, 280px);
   }
 
   .brand-script {

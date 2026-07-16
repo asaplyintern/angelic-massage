@@ -131,63 +131,67 @@ svg {
   transform: translateX(-50%);
   isolation: isolate;
   display: inline-flex;
-  align-items: baseline;
-  gap: 9px;
-  padding: 14px 28px 10px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: min(48vw, 520px);
+  height: 58px;
+  padding: 0;
   color: #fff4df;
   white-space: nowrap;
   letter-spacing: 0;
   line-height: 1;
-  text-shadow: 0 0 18px rgba(255, 222, 164, 0.2);
+  text-shadow: 0 0 18px rgba(255, 222, 164, 0.24);
 }
 
 .brand::selection {
   background: rgba(215, 165, 111, 0.3);
 }
 
-.brand::before {
-  position: absolute;
-  top: 1px;
-  left: 18px;
-  z-index: -1;
-  width: 36px;
-  height: 12px;
-  content: "";
-  border: 1px solid rgba(255, 244, 223, 0.78);
-  border-radius: 50%;
-  box-shadow: 0 0 15px rgba(255, 232, 190, 0.2);
-  transform: rotate(-8deg);
-}
-
 .brand::after {
   position: absolute;
-  right: 10px;
-  bottom: 3px;
-  left: 10px;
+  right: 24%;
+  bottom: 10px;
+  left: 24%;
   z-index: -1;
-  height: 2px;
+  height: 1px;
   content: "";
-  background: linear-gradient(90deg, transparent, rgba(255, 244, 223, 0.88) 18%, rgba(215, 165, 111, 0.9) 50%, transparent);
+  background: linear-gradient(90deg, transparent, rgba(255, 244, 223, 0.84), transparent);
   border-radius: 999px;
-  transform: skewX(-14deg);
 }
 
-.brand-angelic {
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 1.72rem;
-  font-style: italic;
-  font-weight: 600;
+.brand-script {
+  position: relative;
+  z-index: 1;
+  font-family: "Emitha", "Great Vibes", "Snell Roundhand", "Apple Chancery", "Brush Script MT", cursive;
+  font-size: clamp(1.45rem, 2.05vw, 2.15rem);
+  font-weight: 400;
   color: #fff7ee;
-  letter-spacing: 0.01em;
+  letter-spacing: 0.02em;
+  transform: translateY(-1px);
 }
 
-.brand-massage {
-  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  font-size: 0.78rem;
-  font-weight: 700;
-  color: #e5bd88;
-  text-transform: uppercase;
-  letter-spacing: 0.18em;
+.brand-wing {
+  flex: 1 1 120px;
+  max-width: 150px;
+  min-width: 86px;
+  height: 42px;
+  overflow: visible;
+  fill: rgba(255, 248, 238, 0.08);
+  stroke: rgba(255, 244, 223, 0.88);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 0 8px rgba(215, 165, 111, 0.16));
+}
+
+.brand-wing path:not(.wing-outline) {
+  stroke: rgba(229, 189, 136, 0.82);
+  stroke-width: 2;
+}
+
+.brand-wing-right {
+  transform: scaleX(-1);
 }
 
 .header-action,
@@ -737,22 +741,90 @@ img {
 }
 
 .services-title {
-  display: block;
-  padding: 42px 6vw 18px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 0.62fr);
+  gap: 24px;
+  align-items: stretch;
+  padding: 56px 6vw 34px;
+  overflow: hidden;
+  background:
+    linear-gradient(90deg, rgba(33, 23, 17, 0.82), rgba(58, 36, 26, 0.62)),
+    url("/assets/nature-spa-foot.jpg") center 58% / cover;
+  border-bottom: 1px solid rgba(111, 67, 45, 0.18);
+  color: #fff7ee;
+}
+
+.services-title::before {
+  position: absolute;
+  inset: 18px 6vw;
+  z-index: -1;
+  content: "";
+  border: 1px solid rgba(255, 242, 217, 0.16);
+  border-radius: 8px;
+  pointer-events: none;
+}
+
+.services-title-copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 300px;
 }
 
 .services-title h1 {
   margin: 0;
   font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(2.4rem, 5vw, 4.7rem);
+  font-size: clamp(3rem, 7vw, 6.6rem);
   line-height: 1;
-  color: var(--warm-dark);
+  color: #fff7ee;
 }
 
 .services-title p {
+  max-width: 560px;
   margin: 10px 0 0;
-  color: var(--muted);
-  font-size: 1.08rem;
+  color: #f0d9c2;
+  font-size: clamp(1rem, 1.5vw, 1.2rem);
+}
+
+.services-title .eyebrow {
+  width: fit-content;
+  background: rgba(255, 248, 238, 0.88);
+  color: var(--cedar);
+}
+
+.services-title-details {
+  display: grid;
+  gap: 10px;
+  align-content: center;
+}
+
+.services-title-details article {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  min-height: 74px;
+  padding: 16px 18px;
+  border: 1px solid rgba(255, 242, 217, 0.2);
+  border-radius: 8px;
+  background: rgba(255, 248, 238, 0.11);
+  backdrop-filter: blur(12px);
+}
+
+.services-title-details span {
+  color: #ead2bc;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.services-title-details strong {
+  color: #fff7ee;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(1.35rem, 2.3vw, 2.1rem);
+  line-height: 1;
+  text-align: right;
 }
 
 .services-page .page-title {
@@ -1758,16 +1830,12 @@ textarea {
 
 @media (max-width: 1180px) and (min-width: 901px) {
   .brand {
-    padding-left: 16px;
-    padding-right: 16px;
+    width: min(42vw, 430px);
   }
 
-  .brand-angelic {
-    font-size: 1.72rem;
-  }
-
-  .brand-massage {
-    font-size: 0.9rem;
+  .brand-wing {
+    max-width: 105px;
+    min-width: 72px;
   }
 }
 
@@ -1843,17 +1911,20 @@ textarea {
     transform: none;
     order: -1;
     align-self: center;
+    width: min(66vw, 360px);
+    height: 54px;
   }
 
-  .brand-angelic {
-    font-size: 1.95rem;
+  .brand-script {
+    font-size: clamp(1.45rem, 4.4vw, 1.9rem);
   }
 
-  .brand-massage {
-    font-size: 0.92rem;
+  .brand-wing {
+    max-width: 72px;
+    min-width: 44px;
+    height: 34px;
   }
 
-  .brand::before,
   .brand::after {
     display: none;
   }
@@ -1863,6 +1934,7 @@ textarea {
   .home-essentials,
   .balcony-card,
   .home-gallery-story,
+  .services-title,
   .services-hero,
   .services-hero-panel,
   .service-menu-band,

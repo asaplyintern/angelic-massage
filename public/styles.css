@@ -563,7 +563,7 @@ img {
 
 .home-essentials {
   display: grid;
-  grid-template-columns: minmax(280px, 0.82fr) minmax(360px, 1.18fr);
+  grid-template-columns: minmax(280px, 0.95fr) minmax(360px, 1.05fr);
   gap: 22px;
   padding: 58px 6vw;
   background:
@@ -620,13 +620,13 @@ img {
 
 .balcony-card {
   display: grid;
-  grid-template-columns: minmax(220px, 0.9fr) minmax(0, 0.8fr);
+  grid-template-columns: minmax(190px, 0.72fr) minmax(0, 1fr);
   gap: 0;
   overflow: hidden;
 }
 
 .balcony-card .image-card {
-  min-height: 340px;
+  min-height: 280px;
   border: 0;
   border-radius: 0;
   box-shadow: none;
@@ -748,8 +748,9 @@ img {
   padding: 56px 6vw 34px;
   overflow: hidden;
   background:
-    linear-gradient(90deg, rgba(33, 23, 17, 0.82), rgba(58, 36, 26, 0.62)),
-    url("/assets/nature-spa-foot.jpg") center 58% / cover;
+    radial-gradient(circle at 8% 22%, rgba(215, 165, 111, 0.24), transparent 17rem),
+    radial-gradient(circle at 96% 68%, rgba(158, 166, 110, 0.18), transparent 18rem),
+    linear-gradient(135deg, #211711 0%, #3a241a 56%, #6f432d 100%);
   border-bottom: 1px solid rgba(111, 67, 45, 0.18);
   color: #fff7ee;
 }
@@ -1018,7 +1019,7 @@ img {
 }
 
 .services-page .service-grid {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(260px, 1fr));
   gap: 18px;
 }
 
@@ -1704,7 +1705,7 @@ textarea {
 
 .site-footer {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-columns: minmax(170px, 0.42fr) minmax(0, 1fr);
   gap: 20px;
   align-items: center;
   padding: 30px 6vw;
@@ -1715,8 +1716,18 @@ textarea {
 .footer-details {
   display: flex;
   flex-wrap: wrap;
+  justify-content: flex-end;
   gap: 12px 20px;
   color: #ead9c8;
+}
+
+.footer-details span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.footer-details a {
+  white-space: nowrap;
 }
 
 .admin-shell {
@@ -1880,21 +1891,24 @@ textarea {
   }
 
   .site-header.menu-open .nav-left {
-    max-height: 230px;
+    max-height: 330px;
     padding-top: 12px;
-    padding-bottom: 12px;
+    padding-bottom: 82px;
     opacity: 1;
     pointer-events: auto;
   }
 
   .nav-left a {
+    display: flex;
+    align-items: center;
     width: 100%;
+    min-height: 52px;
     padding: 12px 14px;
   }
 
   .header-action {
     position: absolute;
-    top: calc(100% + 166px);
+    top: calc(100% + 198px);
     left: 16px;
     right: 16px;
     z-index: 2;
@@ -1960,6 +1974,27 @@ textarea {
     grid-template-columns: 1fr;
   }
 
+  .services-page .service-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .services-title {
+    padding-top: 42px;
+    padding-bottom: 28px;
+  }
+
+  .services-title-copy {
+    min-height: auto;
+  }
+
+  .services-title-details {
+    grid-template-columns: 1fr;
+  }
+
+  .services-title-details article {
+    min-height: 58px;
+  }
+
   .menu-sidebar {
     position: static;
   }
@@ -2005,6 +2040,16 @@ textarea {
   .balcony-card .image-card {
     min-height: 320px;
   }
+
+  .site-footer {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-details {
+    display: grid;
+    justify-content: stretch;
+    gap: 8px;
+  }
 }
 
 @media (max-width: 560px) {
@@ -2020,6 +2065,55 @@ textarea {
   .admin-shell {
     padding-left: 18px;
     padding-right: 18px;
+  }
+
+  .service-menu-band,
+  .home-essentials,
+  .services-title {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .service-card > div,
+  .service-card .price-list {
+    margin-left: 18px;
+    margin-right: 18px;
+  }
+
+  .service-image {
+    height: 210px;
+  }
+
+  .price-list a {
+    align-items: center;
+    gap: 12px;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .price-list a span:last-child {
+    white-space: nowrap;
+  }
+
+  .balcony-card .image-card {
+    min-height: 220px;
+  }
+
+  .balcony-card > div {
+    padding: 22px;
+  }
+
+  .brand {
+    width: min(70vw, 300px);
+  }
+
+  .brand-wing {
+    max-width: 54px;
+    min-width: 34px;
+  }
+
+  .brand-script {
+    font-size: clamp(1.2rem, 5.2vw, 1.55rem);
   }
 
   .booking-strip {

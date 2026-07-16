@@ -1,10 +1,22 @@
 const admin = require("firebase-admin");
 
+function normalizePrivateKey(value) {
+  let key = String(value || "").trim();
+  if ((key.startsWith('"') && key.endsWith('"')) || (key.startsWith("'") && key.endsWith("'"))) {
+    key = key.slice(1, -1);
+  }
+  key = key.replace(/\\n/g, "\n");
+  if (!key.includes("-----BEGIN PRIVATE KEY-----") || !key.includes("-----END PRIVATE KEY-----")) {
+    throw new Error("FIREBASE_PRIVATE_KEY must include the full BEGIN and END PRIVATE KEY text");
+  }
+  return key;
+}
+
 function credentialFromEnv() {
   if (process.env.FIREBASE_SERVICE_ACCOUNT) {
     const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
     if (serviceAccount.private_key) {
-      serviceAccount.private_key = serviceAccount.private_key.replace(/\\n/g, "\n");
+      serviceAccount.private_key = normalizePrivateKey(serviceAccount.private_key);
     }
     return admin.credential.cert(serviceAccount);
   }
@@ -20,7 +32,7 @@ function credentialFromEnv() {
   return admin.credential.cert({
     projectId,
     clientEmail,
-    privateKey: privateKey.replace(/\\n/g, "\n"),
+    privateKey: normalizePrivateKey(privateKey),
   });
 }
 

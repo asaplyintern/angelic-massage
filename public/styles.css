@@ -253,7 +253,7 @@ main {
 }
 
 .hero-slide:first-child img {
-  object-position: center 35%;
+  object-position: center 48%;
 }
 
 .hero-slide:nth-child(2) img {
@@ -265,7 +265,7 @@ main {
 }
 
 .hero-slide:nth-child(4) img {
-  object-position: center 35%;
+  object-position: center 48%;
 }
 
 @keyframes hero-slide {
@@ -311,6 +311,12 @@ main {
 }
 
 .hero h1 {
+  max-width: min(100%, 960px);
+  font-family: "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+  font-size: clamp(3rem, 7vw, 7.4rem);
+  font-weight: 400;
+  line-height: 0.94;
+  letter-spacing: 0;
   color: #fff7ee;
   text-shadow: 0 8px 32px rgba(0, 0, 0, 0.34);
 }

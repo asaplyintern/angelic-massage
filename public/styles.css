@@ -311,12 +311,12 @@ main {
 }
 
 .hero h1 {
-  max-width: min(100%, 1080px);
+  max-width: min(100%, 1280px);
   font-family: "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
-  font-size: clamp(3rem, 7vw, 7.4rem);
+  font-size: clamp(2.6rem, 6.3vw, 6.8rem);
   font-weight: 400;
-  line-height: 0.94;
-  letter-spacing: 0.055em;
+  line-height: 1;
+  letter-spacing: 0.17em;
   color: #fff7ee;
   text-shadow: 0 8px 32px rgba(0, 0, 0, 0.34);
 }
@@ -2028,6 +2028,10 @@ textarea {
     padding-top: 18vh;
   }
 
+  .hero h1 {
+    letter-spacing: 0.11em;
+  }
+
   .image-card.tall {
     min-height: 360px;
   }
@@ -2109,6 +2113,11 @@ textarea {
 
   .brand-script {
     font-size: clamp(1.2rem, 5.2vw, 1.55rem);
+  }
+
+  .hero h1 {
+    font-size: clamp(2.45rem, 12vw, 4.6rem);
+    letter-spacing: 0.075em;
   }
 
   .booking-strip {
